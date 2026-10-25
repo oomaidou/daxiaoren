@@ -834,6 +834,111 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
   50% { box-shadow: 0 0 18px 2px rgba(157, 191, 118, .22); }
 }
 
+
+/* ============================== 语言切换 / English ============================== */
+.eyebrow b { font-weight: 400; letter-spacing: inherit; }
+
+.lang-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 0 0 6px;
+}
+.lang-btn {
+  pointer-events: auto;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(231, 194, 125, .3);
+  background: rgba(13, 17, 10, .62);
+  color: var(--gold);
+  font: 600 10.5px/1 var(--font);
+  letter-spacing: .14em;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background .16s, border-color .16s, color .16s, transform .16s;
+}
+.lang-btn:hover {
+  background: rgba(231, 194, 125, .13);
+  border-color: rgba(231, 194, 125, .6);
+  color: #f6e7c6;
+  transform: translateY(-1px);
+}
+
+body.lang-en .title {
+  font-size: clamp(48px, 8vw, 108px);
+  letter-spacing: .04em;
+  text-indent: .04em;
+}
+body.lang-en .eyebrow { letter-spacing: .26em; }
+body.lang-en .tagline { letter-spacing: .1em; text-indent: .1em; font-size: clamp(12px, 1.25vw, 15px); }
+body.lang-en .brief { letter-spacing: .015em; line-height: 1.9; }
+body.lang-en .info-card h3 { letter-spacing: .02em; }
+body.lang-en .info-card p { line-height: 1.8; }
+body.lang-en .start-foot { letter-spacing: .06em; }
+body.lang-en .hp-mark { font-size: 10px; letter-spacing: .02em; }
+body.lang-en .stat span { letter-spacing: .05em; }
+body.lang-en .wname { font-size: 10px; letter-spacing: 0; }
+body.lang-en .wammo { font-size: 9.5px; }
+body.lang-en .hn-icon { font-size: 9px; letter-spacing: .02em; }
+body.lang-en .hn-text b { font-size: 12px; letter-spacing: .06em; }
+body.lang-en .map-label { letter-spacing: .18em; }
+body.lang-en .compass-txt { letter-spacing: .08em; }
+
+@media (max-height: 620px) {
+  body.lang-en .title { font-size: clamp(38px, 10vh, 68px); }
+  .lang-row { margin-bottom: 2px; }
+  .lang-btn { padding: 5px 12px; font-size: 9.5px; }
+}
+
+
+body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
+
+
+@media (max-width: 620px) {
+  body.lang-en .eyebrow { letter-spacing: .1em; font-size: 10px; margin-bottom: 10px; }
+  body.lang-en .eyebrow > span { width: 24px; }
+  body.lang-en .tagline { margin-top: 10px; }
+  body.lang-en .brief { font-size: 12px; line-height: 1.8; margin-top: 18px; }
+  body.lang-en .info-grid { margin-top: 20px; gap: 9px; }
+  body.lang-en .info-card { padding: 13px 15px 12px; }
+  body.lang-en .info-card h3 { margin-bottom: 5px; }
+  body.lang-en .info-card p { font-size: 11.5px; line-height: 1.72; }
+  body.lang-en .keys.touch-only { margin-top: 18px; font-size: 10.5px; }
+  body.lang-en .big-btn { margin-top: 22px; }
+  body.lang-en .start-foot { margin-top: 12px; font-size: 10px; letter-spacing: .02em; }
+  body.lang-en .lang-row { margin-bottom: 2px; }
+  body.lang-en .tbtn { font-size: 13px; letter-spacing: 0; }
+  body.lang-en .wname { font-size: 9.5px; }
+}
+
+@media (max-width: 380px) and (max-height: 620px) {
+  body.lang-en .title { font-size: 42px; letter-spacing: .02em; }
+}
+
+
+@media (max-width: 620px) {
+  .info-grid { margin-top: 24px; gap: 9px; }
+  .info-card { padding: 13px 16px 12px; }
+  .info-card p { line-height: 1.8; }
+  .keys { margin-top: 22px; }
+  .big-btn { margin-top: 26px; }
+  .start-foot { margin-top: 16px; }
+  .lang-row { margin-bottom: 2px; }
+}
+
+
+@media (max-width: 620px) and (max-height: 620px) {
+  .wcard {
+    width: auto;
+    flex: 1;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 6px 2px;
+  }
+  .wname { font-size: 9.5px; }
+}
+
 </style>
 </head>
 <body>
@@ -844,160 +949,165 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
   <div id="hud" class="hidden">
     <div id="hud-left" class="panel">
       <div class="hp-row">
-        <span class="hp-mark">命</span>
+        <span class="hp-mark" data-i18n="hud.hp">命</span>
         <div class="hp-bar"><div id="hp-fill"></div><div class="hp-bar-gloss"></div></div>
         <div class="hp-num"><b id="hp-now">1000</b><i>/1000</i></div>
       </div>
       <div class="stam-row">
         <div class="stam-bar"><div id="stam-fill"></div></div>
-        <span class="regen">+10 / 秒</span>
+        <span class="regen" data-i18n="hud.regen">+10 / 秒</span>
       </div>
     </div>
 
     <div id="hud-right" class="panel">
-      <div class="stat"><span>击杀</span><b id="kills">0</b></div>
-      <div class="stat"><span>得分</span><b id="score">0</b></div>
-      <div class="stat"><span>存活</span><b id="clock">00:00</b></div>
-      <div class="stat best"><span>最佳</span><b id="best">0</b></div>
+      <div class="stat"><span data-i18n="hud.kills">击杀</span><b id="kills">0</b></div>
+      <div class="stat"><span data-i18n="hud.score">得分</span><b id="score">0</b></div>
+      <div class="stat"><span data-i18n="hud.time">存活</span><b id="clock">00:00</b></div>
+      <div class="stat best"><span data-i18n="hud.best">最佳</span><b id="best">0</b></div>
     </div>
 
-    <div id="compass">
+    <div id="compass" class="fade">
       <div id="compass-arrow">➤</div>
-      <div class="compass-txt">庇护所 · <b id="compass-dist">0</b> m</div>
+      <div class="compass-txt"><span data-i18n="hud.shelter">庇护所</span> · <b id="compass-dist">0</b> m</div>
     </div>
 
-    <div id="combo" class="hidden"><b id="combo-x">×2</b><span>连杀</span></div>
+    <div id="combo" class="hidden"><b id="combo-x">×2</b><span data-i18n="hud.combo">连杀</span></div>
     <div id="toast"></div>
 
     <div id="weapon-bar">
       <div class="wcard" data-w="fist">
         <span class="wkey">1</span>
-        <span class="wicon">拳</span>
-        <span class="wname">拳头</span>
+        <span class="wicon" data-i18n="hud.icon.fist">拳</span>
+        <span class="wname" data-i18n="hud.weapon.fist">拳头</span>
         <span class="wammo" id="ammo-fist">—</span>
       </div>
       <div class="wcard" data-w="knife">
         <span class="wkey">2</span>
-        <span class="wicon">刀</span>
-        <span class="wname">猎刀</span>
+        <span class="wicon" data-i18n="hud.icon.knife">刀</span>
+        <span class="wname" data-i18n="hud.weapon.knife">猎刀</span>
         <span class="wammo" id="ammo-knife">流血</span>
       </div>
       <div class="wcard active" data-w="gun">
         <span class="wkey">3</span>
-        <span class="wicon">枪</span>
-        <span class="wname">步枪</span>
+        <span class="wicon" data-i18n="hud.icon.gun">枪</span>
+        <span class="wname" data-i18n="hud.weapon.gun">步枪</span>
         <span class="wammo" id="ammo-gun"><b>30</b>/∞</span>
         <span class="reload-line" id="reload-line"></span>
       </div>
       <div class="wcard" data-w="nade">
         <span class="wkey">4</span>
-        <span class="wicon">雷</span>
-        <span class="wname">手榴弹</span>
+        <span class="wicon" data-i18n="hud.icon.nade">雷</span>
+        <span class="wname" data-i18n="hud.weapon.nade">手榴弹</span>
         <span class="wammo" id="ammo-nade">×3</span>
       </div>
     </div>
 
     <div id="map-box">
       <canvas id="mini" width="320" height="320"></canvas>
-      <div class="map-label">暮色山林</div>
+      <div class="map-label" data-i18n="hud.map">暮色山林</div>
     </div>
 
-    <div id="hint" class="hidden"><kbd>E</kbd><span>进入地洞</span></div>
+    <div id="hint" class="hidden"><kbd>E</kbd><span data-i18n="hud.hint">进入地洞</span></div>
 
     <div id="hidden-note" class="hidden">
-      <div class="hn-icon">洞</div>
-      <div class="hn-text"><b>你躲在地洞里</b><span>上面的小人找不到你，正在互相撕打。</span></div>
-      <div class="hn-key desktop-only"><kbd>E</kbd> 爬出来</div>
-      <div class="hn-key touch-only"><span>点「洞」爬出</span></div>
+      <div class="hn-icon" data-i18n="hud.holeIcon">洞</div>
+      <div class="hn-text">
+        <b data-i18n="hud.hiddenTitle">你躲在地洞里</b>
+        <span data-i18n="hud.hiddenText">上面的小人找不到你，正在互相撕打。</span>
+      </div>
+      <div class="hn-key desktop-only"><kbd>E</kbd> <span data-i18n="hud.hiddenKey">爬出来</span></div>
+      <div class="hn-key touch-only"><span data-i18n="hud.hiddenTouch">点「洞」爬出</span></div>
     </div>
 
     <div id="touch-ui">
       <button id="tb-pause" class="tbtn tiny">Ⅱ</button>
-      <button id="tb-switch" class="tbtn">换</button>
-      <button id="tb-nade" class="tbtn">雷</button>
-      <button id="tb-reload" class="tbtn">弹</button>
-      <button id="tb-hole" class="tbtn hidden">洞</button>
+      <button id="tb-switch" class="tbtn" data-i18n="hud.touch.swap">换</button>
+      <button id="tb-nade" class="tbtn" data-i18n="hud.touch.nade">雷</button>
+      <button id="tb-reload" class="tbtn" data-i18n="hud.touch.reload">弹</button>
+      <button id="tb-hole" class="tbtn hidden" data-i18n="hud.touch.hole">洞</button>
     </div>
   </div>
 
   <!-- ================= 开始界面 ================= -->
   <div id="screen-start" class="screen">
     <div class="screen-inner start-inner">
-      <div class="eyebrow"><span></span>无尽围猎 · 暮色山林<span></span></div>
-      <h1 class="title">打小人</h1>
-      <p class="tagline">山里的东西越聚越多。别停手。</p>
-      <p class="brief">
-        你是这片林子里唯一还站着的人。小人从树影里涌出来，用拳头、用刀。你有步枪、猎刀、手榴弹，和一双拳头。<br>
-        山腰的庇护所里有一个地洞——钻进去，它们就碰不到你，只会在上面互相撕咬。
-      </p>
+      <div class="lang-row"><button class="lang-btn" type="button" data-lang-toggle>EN</button></div>
+      <div class="eyebrow"><span></span><b data-i18n="menu.eyebrow">无尽围猎 · 暮色山林</b><span></span></div>
+      <h1 class="title" data-i18n="menu.title">打小人</h1>
+      <p class="tagline" data-i18n="menu.tagline">山里的东西越聚越多。别停手。</p>
+      <p class="brief" data-i18n="menu.brief">你是这片林子里唯一还站着的人。小人从树影里涌出来，用拳头、用刀。你有步枪、猎刀、手榴弹，和一双拳头。<br>山腰的庇护所里有一个地洞——钻进去，它们就碰不到你，只会在上面互相撕咬。</p>
 
       <div class="info-grid">
         <div class="info-card">
-          <div class="ic-key">命</div>
-          <h3>1000 点生命</h3>
-          <p>每秒回复 10 点。被围住时会掉得比回复快，靠走位和翻滚活下来。</p>
+          <div class="ic-key" data-i18n="menu.card1.key">命</div>
+          <h3 data-i18n="menu.card1.title">1000 点生命</h3>
+          <p data-i18n="menu.card1.text">每秒回复 10 点。被围住时会掉得比回复快，靠走位和翻滚活下来。</p>
         </div>
         <div class="info-card">
-          <div class="ic-key">械</div>
-          <h3>四种打法</h3>
-          <p>拳 18 · 猎刀 48 并造成流血 · 步枪 26 一发共 30 发 · 手榴弹 260 范围伤害。</p>
+          <div class="ic-key" data-i18n="menu.card2.key">械</div>
+          <h3 data-i18n="menu.card2.title">四种打法</h3>
+          <p data-i18n="menu.card2.text">拳 18 · 猎刀 48 并造成流血 · 步枪 26 一发共 30 发 · 手榴弹 260 范围伤害。</p>
         </div>
         <div class="info-card">
-          <div class="ic-key">敌</div>
-          <h3>杀不完的小人</h3>
-          <p>没有血条，打死会不断重生。它们会围攻你，也会互相捅刀、被自己的手榴弹炸飞。</p>
+          <div class="ic-key" data-i18n="menu.card3.key">敌</div>
+          <h3 data-i18n="menu.card3.title">杀不完的小人</h3>
+          <p data-i18n="menu.card3.text">没有血条，打死会不断重生。它们会围攻你，也会互相捅刀、被自己的手榴弹炸飞。</p>
         </div>
       </div>
 
       <div class="keys desktop-only">
-        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动</span>
-        <span><kbd>鼠标</kbd> 瞄准 · <kbd>左键</kbd> 攻击</span>
-        <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 换武器</span>
-        <span><kbd>R</kbd> 装弹</span>
-        <span><kbd>Shift</kbd> 冲刺</span>
-        <span><kbd>空格</kbd> 翻滚</span>
-        <span><kbd>E</kbd> 地洞</span>
-        <span><kbd>Esc</kbd> 暂停</span>
+        <span data-i18n="key.move"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动</span>
+        <span data-i18n="key.aim"><kbd>鼠标</kbd> 瞄准 · <kbd>左键</kbd> 攻击</span>
+        <span data-i18n="key.weapons"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 换武器</span>
+        <span data-i18n="key.reload"><kbd>R</kbd> 装弹</span>
+        <span data-i18n="key.sprint"><kbd>Shift</kbd> 冲刺</span>
+        <span data-i18n="key.dodge"><kbd>空格</kbd> 翻滚</span>
+        <span data-i18n="key.hole"><kbd>E</kbd> 地洞</span>
+        <span data-i18n="key.pause"><kbd>Esc</kbd> 暂停</span>
       </div>
-
       <div class="keys touch-only">
-        <span>左半屏拖动 · 移动</span>
-        <span>右半屏拖动 · 瞄准并开火</span>
-        <span>右下按钮 · 换武器 / 手雷 / 装弹 / 地洞</span>
+        <span data-i18n="menu.touch.move">左半屏拖动 · 移动</span>
+        <span data-i18n="menu.touch.aim">右半屏拖动 · 瞄准并开火</span>
+        <span data-i18n="menu.touch.buttons">右下按钮 · 换武器 / 手雷 / 装弹 / 地洞</span>
       </div>
 
-      <button id="btn-start" class="big-btn">开始狩猎<span class="arrow">→</span></button>
-      <div class="start-foot">最佳记录 <b id="best-menu">0</b> 分 &nbsp;·&nbsp; 建议戴耳机 &nbsp;·&nbsp; <kbd>M</kbd> 静音</div>
+      <button id="btn-start" class="big-btn" data-i18n="menu.start">开始狩猎<span class="arrow">→</span></button>
+      <div class="start-foot">
+        <span data-i18n="menu.best">最佳记录</span> <b id="best-menu">0</b> <span data-i18n="menu.pts">分</span>
+        &nbsp;·&nbsp; <span data-i18n="menu.headphones">建议戴耳机</span>
+        &nbsp;·&nbsp; <span data-i18n="menu.mute"><kbd>M</kbd> 静音</span>
+      </div>
     </div>
   </div>
 
   <!-- ================= 暂停界面 ================= -->
   <div id="screen-pause" class="screen hidden">
     <div class="screen-inner pause-inner">
-      <div class="eyebrow"><span></span>暂歇<span></span></div>
-      <h2 class="sub-title">山风停了</h2>
-      <p class="tagline">它们还在外面。</p>
+      <div class="lang-row"><button class="lang-btn" type="button" data-lang-toggle>EN</button></div>
+      <div class="eyebrow"><span></span><b data-i18n="pause.eyebrow">暂歇</b><span></span></div>
+      <h2 class="sub-title" data-i18n="pause.title">山风停了</h2>
+      <p class="tagline" data-i18n="pause.tagline">它们还在外面。</p>
       <div class="pause-stats">
-        <div><span>击杀</span><b id="pause-kills">0</b></div>
-        <div><span>得分</span><b id="pause-score">0</b></div>
-        <div><span>存活</span><b id="pause-time">00:00</b></div>
+        <div><span data-i18n="hud.kills">击杀</span><b id="pause-kills">0</b></div>
+        <div><span data-i18n="hud.score">得分</span><b id="pause-score">0</b></div>
+        <div><span data-i18n="hud.time">存活</span><b id="pause-time">00:00</b></div>
       </div>
       <div class="keys centered desktop-only">
-        <span><kbd>WASD</kbd> 移动</span>
-        <span><kbd>左键</kbd> 攻击</span>
-        <span><kbd>1</kbd>-<kbd>4</kbd> 武器</span>
-        <span><kbd>R</kbd> 装弹</span>
-        <span><kbd>Shift</kbd> 冲刺</span>
-        <span><kbd>空格</kbd> 翻滚</span>
-        <span><kbd>E</kbd> 地洞</span>
+        <span data-i18n="key.move"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动</span>
+        <span data-i18n="key.aim"><kbd>鼠标</kbd> 瞄准 · <kbd>左键</kbd> 攻击</span>
+        <span data-i18n="key.weapons"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 换武器</span>
+        <span data-i18n="key.reload"><kbd>R</kbd> 装弹</span>
+        <span data-i18n="key.sprint"><kbd>Shift</kbd> 冲刺</span>
+        <span data-i18n="key.dodge"><kbd>空格</kbd> 翻滚</span>
+        <span data-i18n="key.hole"><kbd>E</kbd> 地洞</span>
       </div>
       <div class="keys centered touch-only">
-        <span>左半屏拖动 · 移动</span>
-        <span>右半屏拖动 · 瞄准并开火</span>
+        <span data-i18n="menu.touch.move">左半屏拖动 · 移动</span>
+        <span data-i18n="menu.touch.aim">右半屏拖动 · 瞄准并开火</span>
       </div>
       <div class="btn-row">
-        <button id="btn-resume" class="big-btn">继续<span class="arrow">→</span></button>
-        <button id="btn-quit" class="ghost-btn">回到山顶</button>
+        <button id="btn-resume" class="big-btn" data-i18n="pause.resume">继续<span class="arrow">→</span></button>
+        <button id="btn-quit" class="ghost-btn" data-i18n="pause.menu">回到山顶</button>
       </div>
     </div>
   </div>
@@ -1005,18 +1115,19 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
   <!-- ================= 死亡界面 ================= -->
   <div id="screen-dead" class="screen hidden">
     <div class="screen-inner dead-inner">
-      <div class="eyebrow red"><span></span>你倒下了<span></span></div>
-      <h2 class="sub-title">山里的东西围了上来</h2>
+      <div class="lang-row"><button class="lang-btn" type="button" data-lang-toggle>EN</button></div>
+      <div class="eyebrow red"><span></span><b data-i18n="death.eyebrow">你倒下了</b><span></span></div>
+      <h2 class="sub-title" data-i18n="death.title">山里的东西围了上来</h2>
       <div class="death-stats">
-        <div><span>击杀小人</span><b id="dead-kills">0</b></div>
-        <div><span>存活时间</span><b id="dead-time">00:00</b></div>
-        <div><span>最终得分</span><b id="dead-score">0</b></div>
-        <div><span>它们自相残杀</span><b id="dead-infight">0</b></div>
+        <div><span data-i18n="death.kills">击杀小人</span><b id="dead-kills">0</b></div>
+        <div><span data-i18n="death.time">存活时间</span><b id="dead-time">00:00</b></div>
+        <div><span data-i18n="death.score">最终得分</span><b id="dead-score">0</b></div>
+        <div><span data-i18n="death.infight">它们自相残杀</span><b id="dead-infight">0</b></div>
       </div>
       <div class="death-note" id="dead-note">下一次，记得早点回地洞。</div>
       <div class="btn-row">
-        <button id="btn-retry" class="big-btn">再来一局<span class="arrow">→</span></button>
-        <button id="btn-menu" class="ghost-btn">回到山顶</button>
+        <button id="btn-retry" class="big-btn" data-i18n="death.again">再来一局<span class="arrow">→</span></button>
+        <button id="btn-menu" class="ghost-btn" data-i18n="death.menu">回到山顶</button>
       </div>
     </div>
   </div>
@@ -1061,6 +1172,262 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
   }
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+  // ---------------------------------------------------------------- i18n
+  const I18N = {
+    zh: {
+      'meta.title': '打小人 · 暮色山林',
+      'meta.desc': '无尽围猎小游戏：在暮色山林里用拳头、猎刀、步枪和手榴弹打退不断重生的小人，躲进庇护所地洞避开攻击。',
+      'lang.switch': '切换到英文',
+      'menu.eyebrow': '无尽围猎 · 暮色山林',
+      'menu.title': '打小人',
+      'menu.tagline': '山里的东西越聚越多。别停手。',
+      'menu.brief': '你是这片林子里唯一还站着的人。小人从树影里涌出来，用拳头、用刀。你有步枪、猎刀、手榴弹，和一双拳头。<br>山腰的庇护所里有一个地洞——钻进去，它们就碰不到你，只会在上面互相撕咬。',
+      'menu.card1.key': '命',
+      'menu.card1.title': '1000 点生命',
+      'menu.card1.text': '每秒回复 10 点。被围住时会掉得比回复快，靠走位和翻滚活下来。',
+      'menu.card2.key': '械',
+      'menu.card2.title': '四种打法',
+      'menu.card2.text': '拳 18 · 猎刀 48 并造成流血 · 步枪 26 一发共 30 发 · 手榴弹 260 范围伤害。',
+      'menu.card3.key': '敌',
+      'menu.card3.title': '杀不完的小人',
+      'menu.card3.text': '没有血条，打死会不断重生。它们会围攻你，也会互相捅刀、被手榴弹炸飞。',
+      'key.move': '<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动',
+      'key.aim': '<kbd>鼠标</kbd> 瞄准 · <kbd>左键</kbd> 攻击',
+      'key.weapons': '<kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 换武器',
+      'key.reload': '<kbd>R</kbd> 装弹',
+      'key.sprint': '<kbd>Shift</kbd> 冲刺',
+      'key.dodge': '<kbd>空格</kbd> 翻滚',
+      'key.hole': '<kbd>E</kbd> 地洞',
+      'key.pause': '<kbd>Esc</kbd> 暂停',
+      'menu.touch.move': '左半屏拖动 · 移动',
+      'menu.touch.aim': '右半屏拖动 · 瞄准并开火',
+      'menu.touch.buttons': '右下按钮 · 换武器 / 手雷 / 装弹 / 地洞',
+      'menu.start': '开始狩猎<span class="arrow">→</span>',
+      'menu.best': '最佳记录',
+      'menu.pts': '分',
+      'menu.headphones': '建议戴耳机',
+      'menu.mute': '<kbd>M</kbd> 静音',
+      'pause.eyebrow': '暂歇',
+      'pause.title': '山风停了',
+      'pause.tagline': '它们还在外面。',
+      'pause.resume': '继续<span class="arrow">→</span>',
+      'pause.menu': '回到山顶',
+      'death.eyebrow': '你倒下了',
+      'death.title': '山里的东西围了上来',
+      'death.kills': '击杀小人',
+      'death.time': '存活时间',
+      'death.score': '最终得分',
+      'death.infight': '它们自相残杀',
+      'death.again': '再来一局<span class="arrow">→</span>',
+      'death.menu': '回到山顶',
+      'death.note0': '你甚至没能放倒一个。下次先开枪。',
+      'death.note1': '下一次，边退边打。',
+      'death.note2': '它们会越来越多，记得回地洞。',
+      'death.note3': '山里的东西暂时退了。下一次，撑久一点。',
+      'hud.hp': '命',
+      'hud.regen': '+10 / 秒',
+      'hud.kills': '击杀',
+      'hud.score': '得分',
+      'hud.time': '存活',
+      'hud.best': '最佳',
+      'hud.shelter': '庇护所',
+      'hud.combo': '连杀',
+      'hud.weapon.fist': '拳头',
+      'hud.weapon.knife': '猎刀',
+      'hud.weapon.gun': '步枪',
+      'hud.weapon.nade': '手榴弹',
+      'hud.bleed': '流血',
+      'hud.reloading': '装弹中',
+      'hud.map': '暮色山林',
+      'hud.hint': '进入地洞',
+      'hud.holeIcon': '洞',
+      'hud.hiddenTitle': '你躲在地洞里',
+      'hud.hiddenText': '上面的小人找不到你，正在互相撕打。',
+      'hud.hiddenKey': '爬出来',
+      'hud.hiddenTouch': '点「洞」爬出',
+      'hud.touch.swap': '换',
+      'hud.touch.nade': '雷',
+      'hud.touch.reload': '弹',
+      'hud.touch.hole': '洞',
+      'hud.icon.fist': '拳',
+      'hud.icon.knife': '刀',
+      'hud.icon.gun': '枪',
+      'hud.icon.nade': '雷',
+      'toast.survive': '活下去。它们会越来越多。',
+      'toast.holeOut': '你爬出了地洞。小心门口。',
+      'toast.tooFar': '离地洞太远了。',
+      'toast.holeIn': '你钻进了地洞。上面传来了打斗声。',
+      'toast.noNade': '没有手榴弹了。打死小人会掉。',
+      'toast.infight1': '两个小人翻脸了。看着它们打。',
+      'toast.infight2': '它们越打越凶了。',
+      'toast.med': '医疗包 +200 生命',
+      'toast.nade': '捡到一枚手榴弹',
+      'toast.nadeFull': '手榴弹满了，换成 40 分',
+      'toast.ammo': '弹匣已压满',
+      'toast.soundOn': '音效已开启',
+      'toast.soundOff': '音效已关闭',
+      'pickup.full': '满血',
+      'combo.rampage': '杀疯了 ×{0}',
+      'hole.label': '地洞 · 按 E 钻进去',
+      'hole.touch': '地洞 · 点右下「洞」'
+    },
+    en: {
+      'meta.title': 'Little Men · Dusk Forest',
+      'meta.desc': 'An endless top-down survival shooter: fight off little men in a dusk forest with fists, knife, rifle and grenades, or hide in the shelter hole and watch them turn on each other.',
+      'lang.switch': 'Switch to Chinese',
+      'menu.eyebrow': 'ENDLESS HUNT · DUSK FOREST',
+      'menu.title': 'LITTLE MEN',
+      'menu.tagline': `They keep coming out of the woods. Don't stop.`,
+      'menu.brief': `You're the last one standing in these woods. Little men pour out of the trees with fists and knives. You have a rifle, a knife, grenades, and your bare hands. <br>There's a hole in the shelter floor — climb in, and they'll tear each other apart instead.`,
+      'menu.card1.key': 'HP',
+      'menu.card1.title': '1000 HP',
+      'menu.card1.text': 'Regenerate 10 HP every second. When surrounded, you lose it faster than you regain it. Keep moving and dodge.',
+      'menu.card2.key': 'KIT',
+      'menu.card2.title': 'Four ways to fight',
+      'menu.card2.text': 'Fists 18 · Knife 48 + bleed · Rifle 26 per shot, 30-round mag · Grenade 260 area damage.',
+      'menu.card3.key': 'FOE',
+      'menu.card3.title': 'Endless little men',
+      'menu.card3.text': `No health bars. They respawn endlessly. They'll swarm you, stab each other, and get blown up by grenades.`,
+      'key.move': '<kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move',
+      'key.aim': '<kbd>Mouse</kbd> Aim · <kbd>LMB</kbd> Attack',
+      'key.weapons': '<kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> Weapons',
+      'key.reload': '<kbd>R</kbd> Reload',
+      'key.sprint': '<kbd>Shift</kbd> Sprint',
+      'key.dodge': '<kbd>Space</kbd> Dodge',
+      'key.hole': '<kbd>E</kbd> Hole',
+      'key.pause': '<kbd>Esc</kbd> Pause',
+      'menu.touch.move': 'Left half drag · Move',
+      'menu.touch.aim': 'Right half drag · Aim & fire',
+      'menu.touch.buttons': 'Bottom-right · Swap / Grenade / Reload / Hole',
+      'menu.start': 'START HUNTING<span class="arrow">→</span>',
+      'menu.best': 'Best',
+      'menu.pts': 'pts',
+      'menu.headphones': 'Headphones recommended',
+      'menu.mute': '<kbd>M</kbd> mute',
+      'pause.eyebrow': 'PAUSED',
+      'pause.title': 'The wind stops',
+      'pause.tagline': `They're still out there.`,
+      'pause.resume': 'RESUME<span class="arrow">→</span>',
+      'pause.menu': 'BACK TO MENU',
+      'death.eyebrow': 'YOU FELL',
+      'death.title': 'They closed in',
+      'death.kills': 'Kills',
+      'death.time': 'Time survived',
+      'death.score': 'Final score',
+      'death.infight': 'Infighting',
+      'death.again': 'PLAY AGAIN<span class="arrow">→</span>',
+      'death.menu': 'BACK TO MENU',
+      'death.note0': `You didn't take a single one down. Shoot first next time.`,
+      'death.note1': 'Next time, back away while you shoot.',
+      'death.note2': 'There will be more of them. Remember the hole.',
+      'death.note3': `They've pulled back for now. Last longer next time.`,
+      'hud.hp': 'HP',
+      'hud.regen': '+10 / sec',
+      'hud.kills': 'KILLS',
+      'hud.score': 'SCORE',
+      'hud.time': 'TIME',
+      'hud.best': 'BEST',
+      'hud.shelter': 'SHELTER',
+      'hud.combo': 'COMBO',
+      'hud.weapon.fist': 'Fists',
+      'hud.weapon.knife': 'Knife',
+      'hud.weapon.gun': 'Rifle',
+      'hud.weapon.nade': 'Grenade',
+      'hud.bleed': 'Bleed',
+      'hud.reloading': 'Reload',
+      'hud.map': 'DUSK FOREST',
+      'hud.hint': 'Enter the hole',
+      'hud.holeIcon': '↓',
+      'hud.hiddenTitle': 'IN THE HOLE',
+      'hud.hiddenText': `They can't find you. They're fighting above.`,
+      'hud.hiddenKey': 'Climb out',
+      'hud.hiddenTouch': 'Tap Hole',
+      'hud.touch.swap': 'Swap',
+      'hud.touch.nade': 'Nade',
+      'hud.touch.reload': 'Reload',
+      'hud.touch.hole': 'Hole',
+      'hud.icon.fist': 'F',
+      'hud.icon.knife': 'K',
+      'hud.icon.gun': 'R',
+      'hud.icon.nade': 'G',
+      'toast.survive': 'Survive. There will be more of them.',
+      'toast.holeOut': 'You climb out. Watch the door.',
+      'toast.tooFar': 'Too far from the hole.',
+      'toast.holeIn': `You're in the hole. Something is fighting above.`,
+      'toast.noNade': 'No grenades left. Little men drop them.',
+      'toast.infight1': 'Two of them turned on each other. Let them fight.',
+      'toast.infight2': `They're tearing each other apart.`,
+      'toast.med': 'Medkit +200 HP',
+      'toast.nade': 'Grenade picked up',
+      'toast.nadeFull': 'Grenades full — +40 score',
+      'toast.ammo': 'Magazine reloaded',
+      'toast.soundOn': 'Sound on',
+      'toast.soundOff': 'Sound off',
+      'pickup.full': 'FULL HP',
+      'combo.rampage': 'RAMPAGE ×{0}',
+      'hole.label': 'HOLE · Press E to enter',
+      'hole.touch': 'HOLE · Tap the button'
+    }
+  };
+
+  let lang = 'zh';
+  let deathNoteKey = 'death.note2';
+
+  function tr(key, ...args) {
+    const table = I18N[lang] || I18N.zh;
+    let out = table[key] !== undefined ? table[key] : (I18N.zh[key] !== undefined ? I18N.zh[key] : key);
+    if (args.length) {
+      out = out.replace(/\{(\d+)\}/g, (m, i) => (args[+i] !== undefined ? String(args[+i]) : m));
+    }
+    return out;
+  }
+
+  function detectLang() {
+    try {
+      const saved = localStorage.getItem('daxiaoren.lang');
+      if (saved === 'zh' || saved === 'en') return saved;
+    } catch (e) {}
+    const nav = String(navigator.language || 'zh').toLowerCase();
+    return nav.startsWith('zh') ? 'zh' : 'en';
+  }
+
+  function applyLang(next, persist = true) {
+    lang = next === 'en' ? 'en' : 'zh';
+    if (persist) {
+      try { localStorage.setItem('daxiaoren.lang', lang); } catch (e) {}
+    }
+    document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+    document.title = tr('meta.title');
+    const md = document.querySelector('meta[name="description"]');
+    if (md) md.setAttribute('content', tr('meta.desc'));
+    document.body.classList.toggle('lang-en', lang === 'en');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const val = (I18N[lang] && I18N[lang][key] !== undefined) ? I18N[lang][key] : I18N.zh[key];
+      if (val !== undefined) el.innerHTML = val;
+    });
+    document.querySelectorAll('[data-lang-toggle]').forEach(btn => {
+      btn.textContent = lang === 'en' ? '中文' : 'EN';
+      btn.title = tr('lang.switch');
+      btn.setAttribute('aria-label', tr('lang.switch'));
+    });
+    if (state === 'dead' && deathNoteKey) {
+      const note = $('#dead-note');
+      if (note) note.textContent = tr(deathNoteKey);
+    }
+    if (HUD.toast) {
+      HUD.toast.classList.remove('show');
+      toastTimer = 0;
+    }
+    if (typeof updateHUD === 'function' && player) updateHUD(0);
+    if (typeof syncWeaponUI === 'function' && player) syncWeaponUI();
+  }
+
+  function toggleLang() {
+    applyLang(lang === 'en' ? 'zh' : 'en');
+    if (SFX.ac) SFX.click();
+  }
 
   function angleDiff(a, b) {
     let d = (b - a + Math.PI) % TAU;
@@ -1552,6 +1919,11 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     toastTimer = ms / 1000;
   }
 
+  function hideToast() {
+    if (HUD.toast) HUD.toast.classList.remove('show');
+    toastTimer = 0;
+  }
+
   // ---------------------------------------------------------------- player
   function makePlayer() {
     return {
@@ -1586,7 +1958,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     $('#screen-dead').classList.add('hidden');
     $('#hud').classList.remove('hidden');
     if (IS_TOUCH) document.body.classList.add('touch');
-    toast('活下去。它们会越来越多。', 2600);
+    toast(tr('toast.survive'), 2600);
   }
 
   function resetGame() {
@@ -1652,11 +2024,11 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
       SFX.hole();
       SFX.setDuck(1);
       HUD.hiddenNote.classList.add('hidden');
-      if (!IS_TOUCH) toast('你爬出了地洞。小心门口。', 2200);
+      if (!IS_TOUCH) toast(tr('toast.holeOut'), 2200);
       return;
     }
     if (dist(player.x, player.y, SHELTER.holeX, SHELTER.holeY) > 92) {
-      toast('离地洞太远了。', 1400);
+      toast(tr('toast.tooFar'), 1400);
       return;
     }
     player.hidden = true;
@@ -1668,7 +2040,6 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     SFX.hole();
     SFX.setDuck(0.42);
     HUD.hiddenNote.classList.remove('hidden');
-    if (!IS_TOUCH) toast('你钻进了地洞。上面传来了打斗声。', 3000);
   }
 
   // ---------------------------------------------------------------- enemies
@@ -2097,13 +2468,13 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
       const base = (WEAPONS[by] && WEAPONS[by].score) || 100;
       score += Math.round(base * combo);
       if (combo >= 3) {
-        addText(e.x, e.y - 16, combo >= 6 ? '杀疯了 ×' + combo : '×' + combo, '#f2c87e', 17);
+        addText(e.x, e.y - 16, combo >= 6 ? tr('combo.rampage', combo) : '×' + combo, '#f2c87e', 17);
       }
       maybeDrop(e);
     } else {
       infightKills++;
-      if (infightKills === 1) toast('两个小人翻脸了。看着它们打。', 2000);
-      else if (infightKills === 8) toast('它们越打越凶了。', 2000);
+      if (infightKills === 1) toast(tr('toast.infight1'), 2000);
+      else if (infightKills === 8) toast(tr('toast.infight2'), 2000);
     }
     addDecal('blood', e.x, e.y, rnd(8, 16), rnd(0, TAU));
     bloodBurst(e.x, e.y, isInfight ? 10 : 8, 230);
@@ -2128,15 +2499,14 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
       best = score;
       try { localStorage.setItem('daxiaoren.best', String(best)); } catch (e) {}
     }
+    hideToast();
+    $('#hud').classList.add('hidden');
     SFX.setDuck(0.5);
     bloodBurst(player.x, player.y, 28, 300, '130,26,20');
     addDecal('blood', player.x, player.y, 34, rnd(0, TAU));
+    deathNoteKey = kills === 0 ? 'death.note0' : (kills < 10 ? 'death.note1' : (time < 60 ? 'death.note2' : 'death.note3'));
     const note = $('#dead-note');
-    if (note) {
-      note.textContent = kills === 0 ? '你甚至没能放倒一个。下次先开枪。' :
-        (kills < 10 ? '下一次，边退边打。' :
-          (time < 60 ? '它们会越来越多，记得回地洞。' : '山里的东西暂时退了。下一次，撑久一点。'));
-    }
+    if (note) note.textContent = tr(deathNoteKey);
     $('#dead-kills').textContent = String(kills);
     $('#dead-time').textContent = fmtTime(time);
     $('#dead-score').textContent = String(score);
@@ -2161,28 +2531,28 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     if (p.type === 'med') {
       const heal = Math.min(200, player.maxHp - player.hp);
       player.hp = Math.min(player.maxHp, player.hp + 200);
-      addText(p.x, p.y - 8, heal >= 1 ? '+' + Math.round(heal) : '满血', '#b7e08b', 15);
+      addText(p.x, p.y - 8, heal >= 1 ? '+' + Math.round(heal) : tr('pickup.full'), '#b7e08b', 15);
       for (let i = 0; i < 12; i++) {
         addParticle({
           kind: 'spark', x: p.x, y: p.y, vx: rnd(-70, 70), vy: rnd(-110, -20),
           life: rnd(0.3, 0.7), size: rnd(1, 2.2), color: '152,210,120', drag: 1.5
         });
       }
-      toast('医疗包 +200 生命', 1600);
+      toast(tr('toast.med'), 1600);
     } else if (p.type === 'nade') {
       if (player.grenades < player.maxGrenades) {
         player.grenades++;
-        toast('捡到一枚手榴弹', 1400);
+        toast(tr('toast.nade'), 1400);
       } else {
         score += 40;
-        toast('手榴弹满了，换成 40 分', 1400);
+        toast(tr('toast.nadeFull'), 1400);
       }
       syncWeaponUI();
       SFX.pickup();
     } else if (p.type === 'ammo') {
       player.mag = player.magSize;
       player.reload = 0;
-      toast('弹匣已压满', 1400);
+      toast(tr('toast.ammo'), 1400);
       SFX.reload();
       syncWeaponUI();
     }
@@ -2239,7 +2609,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     if (player.nadeCd > 0) return;
     if (player.grenades <= 0) {
       SFX.dry();
-      toast('没有手榴弹了。打死小人会掉。', 1800);
+      toast(tr('toast.noNade'), 1800);
       return;
     }
     const a = player.aim;
@@ -3118,7 +3488,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
       ctx.fillStyle = 'rgba(240,215,165,.75)';
       ctx.font = '600 11px "PingFang SC", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(IS_TOUCH ? '地洞 · 点右下「洞」' : '地洞 · 按 E 钻进去', x, y - 60);
+      ctx.fillText(tr(IS_TOUCH ? 'hole.touch' : 'hole.label'), x, y - 60);
     }
   }
 
@@ -4520,10 +4890,10 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     HUD.best.textContent = String(Math.max(best, score));
 
     // 武器
-    HUD.ammoGun.innerHTML = player.reload > 0 ? '<b>装弹中</b>' : `<b>${player.mag}</b>/∞`;
+    HUD.ammoGun.innerHTML = player.reload > 0 ? '<b>' + tr('hud.reloading') + '</b>' : `<b>${player.mag}</b>/∞`;
     HUD.ammoNade.textContent = '×' + player.grenades;
     HUD.ammoFist.textContent = '—';
-    HUD.ammoKnife.textContent = '流血';
+    HUD.ammoKnife.textContent = tr('hud.bleed');
     HUD.cards.gun.classList.toggle('empty', player.mag <= 0 && player.reload <= 0);
     HUD.cards.nade.classList.toggle('empty', player.grenades <= 0);
     if (player.reload > 0) {
@@ -4579,6 +4949,8 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     $('#pause-kills').textContent = String(kills);
     $('#pause-score').textContent = String(score);
     $('#pause-time').textContent = fmtTime(time);
+    hideToast();
+    $('#hud').classList.add('hidden');
     $('#screen-pause').classList.remove('hidden');
     SFX.setDuck(0.28);
     SFX.click();
@@ -4588,6 +4960,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     if (state !== 'paused') return;
     state = 'playing';
     $('#screen-pause').classList.add('hidden');
+    $('#hud').classList.remove('hidden');
     SFX.setDuck(player && player.hidden ? 0.45 : 1);
     SFX.click();
   }
@@ -4609,6 +4982,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     $('#best-menu').textContent = String(best);
     HUD.hiddenNote.classList.add('hidden');
     HUD.hint.classList.add('hidden');
+    hideToast();
     SFX.setDuck(1);
   }
 
@@ -4620,7 +4994,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     SFX.on = !SFX.on;
     if (SFX.on) SFX.init();
     SFX.setDuck(SFX.on ? (player && player.hidden ? 0.45 : 1) : 0);
-    toast(SFX.on ? '音效已开启' : '音效已关闭', 1500);
+    toast(tr(SFX.on ? 'toast.soundOn' : 'toast.soundOff'), 1500);
   }
 
   function doDodge() {
@@ -4690,6 +5064,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     keys[code] = true;
 
     if (code === 'KeyM') { toggleMute(); return; }
+    if (code === 'KeyL') { toggleLang(); return; }
 
     if (state === 'menu') {
       if (code === 'Enter' || code === 'Space') beginGame();
@@ -4831,6 +5206,13 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
   bindBtn('tb-pause', () => pauseGame());
 
   // 首屏按钮
+  document.querySelectorAll('[data-lang-toggle]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleLang();
+    });
+  });
   $('#btn-start').addEventListener('click', beginGame);
   $('#btn-resume').addEventListener('click', resumeGame);
   $('#btn-quit').addEventListener('click', goMenu);
@@ -4869,6 +5251,7 @@ body.touch #tb-hole { animation: holePulse 1.7s ease-in-out infinite; }
     $('#screen-pause').classList.add('hidden');
     $('#screen-dead').classList.add('hidden');
     $('#hud').classList.add('hidden');
+    applyLang(detectLang(), false);
     started = true;
     requestAnimationFrame(loop);
   }
