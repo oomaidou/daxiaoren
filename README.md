@@ -55,6 +55,21 @@
 - **油桶**：打爆后产生范围爆炸，能连锁引爆附近的桶。
 - **内讧**：小人被挡住、找不到你，或本身就是好斗类型时，会攻击同伴；刀和爆炸都会误伤。
 
+## 项目结构
+
+- `index.html` — 单文件构建版，GitHub Pages 使用的版本
+- `source/` — 可维护源码：`index.html`、`style.css`、`game.js`
+- `build.py` — 把 `source/` 内联成根目录的 `index.html`
+- `preview.png` / `preview-en.png` — 中英文截图
+
+修改 `source/` 里的文件后，在项目根目录运行：
+
+```bash
+python3 build.py
+```
+
+就会重新生成 `index.html`。
+
 ## 本地运行
 
 直接双击 `index.html` 即可；也可以在当前目录启动一个本地服务器：

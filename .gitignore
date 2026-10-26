@@ -1,3 +1,10 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# 本地便捷副本（build.py 生成 / 本地截图），不提交
+打小人.html
+预览图.png
+
+# Python
+__pycache__/

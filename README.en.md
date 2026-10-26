@@ -52,6 +52,21 @@ A top-down endless survival shooter that runs in the browser. Little men keep po
 - **Barrels:** shoot them for an area explosion that can chain to nearby barrels.
 - **Infighting:** little men attack each other when blocked, when they can't find you, or when they are the aggressive type. Knives and explosions can hit everyone.
 
+## Project structure
+
+- `index.html` — the built single-file version used by GitHub Pages
+- `source/` — maintainable source: `index.html`, `style.css`, `game.js`
+- `build.py` — inlines `source/` into the root `index.html`
+- `preview.png` / `preview-en.png` — screenshots
+
+After editing anything in `source/`, run:
+
+```bash
+python3 build.py
+```
+
+from the project root to rebuild `index.html`.
+
 ## Run locally
 
 Double-click `index.html`, or start a local server in this folder:
