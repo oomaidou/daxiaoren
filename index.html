@@ -179,6 +179,7 @@ kbd {
 .stat span { font-size: 10.5px; color: var(--muted); letter-spacing: .12em; }
 .stat b { font-size: 16px; font-weight: 700; color: #f2e6ce; }
 .stat.best b { color: var(--gold); font-size: 14px; }
+.stat.gold b { color: #f0c97c; text-shadow: 0 0 14px rgba(240, 201, 124, .35); }
 
 #compass {
   position: absolute;
@@ -269,7 +270,7 @@ kbd {
 
 .wcard {
   position: relative;
-  width: 96px;
+  width: 88px;
   padding: 9px 8px 8px;
   border-radius: 11px;
   border: 1px solid transparent;
@@ -290,6 +291,7 @@ kbd {
 }
 
 .wcard.empty { opacity: .45; }
+.wcard.locked { display: none; }
 
 .wkey {
   position: absolute;
@@ -434,6 +436,7 @@ body.touch #touch-ui { display: block; }
 #tb-nade { right: 22px; bottom: 130px; }
 #tb-reload { right: 92px; bottom: 200px; }
 #tb-hole { right: 22px; bottom: 200px; border-color: rgba(157, 191, 118, .55); color: #cfe2b2; }
+#tb-shop { right: 22px; bottom: 200px; border-color: rgba(240, 201, 124, .6); color: #f0c97c; }
 
 /* ============================== 全屏界面 ============================== */
 .screen {
@@ -662,6 +665,119 @@ body.touch #touch-ui { display: block; }
 #screen-dead .eyebrow { color: #c98d7a; }
 #screen-dead .sub-title { color: #e7c8b2; }
 
+/* ============================== 商店 ============================== */
+#screen-shop .screen-inner { max-width: 900px; }
+
+.shop-wallet {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(231, 194, 125, .3);
+  background: rgba(12, 16, 9, .6);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: #a99f8b;
+}
+.shop-wallet b {
+  font: 700 22px/1 var(--serif);
+  color: #f0c97c;
+  letter-spacing: .02em;
+  text-shadow: 0 0 18px rgba(240, 201, 124, .35);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 26px auto 0;
+  max-width: 800px;
+}
+
+.shop-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px;
+  text-align: left;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(30, 36, 23, .72), rgba(12, 15, 9, .55));
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s, background .15s;
+  overflow: hidden;
+}
+.shop-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(200px 100px at 10% 0%, rgba(231, 194, 125, .09), transparent 70%);
+  pointer-events: none;
+}
+.shop-item:hover:not(.owned) {
+  transform: translateY(-2px);
+  border-color: rgba(231, 194, 125, .5);
+  background: linear-gradient(160deg, rgba(38, 44, 28, .8), rgba(15, 18, 11, .6));
+}
+.shop-item:active:not(.owned) { transform: translateY(0); }
+.shop-item.owned { opacity: .5; cursor: default; }
+.shop-item.poor { border-color: rgba(190, 90, 62, .32); }
+.shop-item.poor .si-price { color: #d98a72; }
+
+.si-icon {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font: 700 21px/1 var(--serif);
+  color: #cfc0a3;
+  background: rgba(0, 0, 0, .3);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.si-icon.slime { color: #a9e08a; box-shadow: inset 0 0 22px rgba(120, 200, 110, .12); }
+.si-icon.quicksand { color: #e3c48e; box-shadow: inset 0 0 22px rgba(220, 190, 130, .12); }
+.si-icon.gatling { color: #c9c6b2; box-shadow: inset 0 0 22px rgba(190, 190, 170, .12); }
+.si-icon.cannon { color: #e8a076; box-shadow: inset 0 0 22px rgba(220, 130, 80, .14); }
+
+.si-body { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.si-name { font-size: 14px; color: #f0e3c8; letter-spacing: .06em; }
+.si-desc { font-style: normal; font-size: 11.5px; line-height: 1.75; color: #9c9381; }
+
+.si-side { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; min-width: 62px; }
+.si-price { font: 700 18px/1 var(--serif); color: #f0c97c; }
+.si-unit { font-style: normal; font-size: 9.5px; color: #8d8574; letter-spacing: .1em; }
+.si-tag { display: none; font-size: 10px; color: #a9c98d; letter-spacing: .12em; }
+.shop-item.owned .si-price,
+.shop-item.owned .si-unit { display: none; }
+.shop-item.owned .si-tag { display: block; }
+
+.shop-note {
+  margin-top: 20px;
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #8f8674;
+}
+
+.shop-msg {
+  min-height: 20px;
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: #f0c97c;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity .2s, transform .2s;
+}
+.shop-msg.show { opacity: 1; transform: translateY(0); }
+.shop-msg.bad { color: #e0917c; }
+
 #err {
   display: none;
   position: fixed;
@@ -720,6 +836,12 @@ body.touch #touch-ui { display: block; }
   .wkey { position: static; font-size: 8px; opacity: .6; }
   .wname { font-size: 10px; }
   .wammo { font-size: 9px; }
+  #weapon-bar { overflow-x: auto; justify-content: flex-start; }
+  .wcard { flex: 0 0 62px; }
+  .shop-grid { grid-template-columns: 1fr; max-width: 480px; }
+  .si-icon { flex-basis: 40px; width: 40px; height: 40px; font-size: 18px; }
+  .si-desc { font-size: 11px; line-height: 1.65; }
+  #screen-shop .tagline { letter-spacing: .16em; text-indent: .16em; }
   #hint { bottom: 90px; font-size: 11px; }
   #hidden-note { top: 76px; max-width: calc(100vw - 24px); }
   .hn-text span { display: none; }
@@ -930,14 +1052,20 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
 
 @media (max-width: 620px) and (max-height: 620px) {
   .wcard {
-    width: auto;
-    flex: 1;
+    width: 58px;
+    flex: 0 0 58px;
     grid-template-columns: 1fr;
     gap: 0;
     padding: 6px 2px;
   }
   .wname { font-size: 9.5px; }
 }
+
+/* 武器栏变长之后，窄屏把地图抬到武器栏上方，避免重叠 */
+@media (max-width: 1200px) {
+  #map-box { bottom: 104px; }
+}
+.wname { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 </style>
 </head>
@@ -964,6 +1092,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       <div class="stat"><span data-i18n="hud.score">得分</span><b id="score">0</b></div>
       <div class="stat"><span data-i18n="hud.time">存活</span><b id="clock">00:00</b></div>
       <div class="stat best"><span data-i18n="hud.best">最佳</span><b id="best">0</b></div>
+      <div class="stat gold"><span data-i18n="hud.gold">金币</span><b id="gold">0</b></div>
     </div>
 
     <div id="compass" class="fade">
@@ -1000,6 +1129,34 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
         <span class="wname" data-i18n="hud.weapon.nade">手榴弹</span>
         <span class="wammo" id="ammo-nade">×3</span>
       </div>
+      <div class="wcard locked" data-w="slime">
+        <span class="wkey">5</span>
+        <span class="wicon" data-i18n="hud.icon.slime">粘</span>
+        <span class="wname" data-i18n="hud.short.slime">粘液枪</span>
+        <span class="wammo" id="ammo-slime">24</span>
+        <span class="reload-line" id="reload-line-slime"></span>
+      </div>
+      <div class="wcard locked" data-w="quicksand">
+        <span class="wkey">6</span>
+        <span class="wicon" data-i18n="hud.icon.quicksand">沙</span>
+        <span class="wname" data-i18n="hud.short.quicksand">流沙枪</span>
+        <span class="wammo" id="ammo-quicksand">12</span>
+        <span class="reload-line" id="reload-line-quicksand"></span>
+      </div>
+      <div class="wcard locked" data-w="gatling">
+        <span class="wkey">7</span>
+        <span class="wicon" data-i18n="hud.icon.gatling">加</span>
+        <span class="wname" data-i18n="hud.short.gatling">加特林</span>
+        <span class="wammo" id="ammo-gatling">220</span>
+        <span class="reload-line" id="reload-line-gatling"></span>
+      </div>
+      <div class="wcard locked" data-w="cannon">
+        <span class="wkey">8</span>
+        <span class="wicon" data-i18n="hud.icon.cannon">炮</span>
+        <span class="wname" data-i18n="hud.short.cannon">大炮</span>
+        <span class="wammo" id="ammo-cannon">6</span>
+        <span class="reload-line" id="reload-line-cannon"></span>
+      </div>
     </div>
 
     <div id="map-box">
@@ -1025,6 +1182,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       <button id="tb-nade" class="tbtn" data-i18n="hud.touch.nade">雷</button>
       <button id="tb-reload" class="tbtn" data-i18n="hud.touch.reload">弹</button>
       <button id="tb-hole" class="tbtn hidden" data-i18n="hud.touch.hole">洞</button>
+      <button id="tb-shop" class="tbtn hidden" data-i18n="hud.touch.shop">店</button>
     </div>
   </div>
 
@@ -1063,6 +1221,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
         <span data-i18n="key.sprint"><kbd>Shift</kbd> 冲刺</span>
         <span data-i18n="key.dodge"><kbd>空格</kbd> 翻滚</span>
         <span data-i18n="key.hole"><kbd>E</kbd> 地洞</span>
+        <span data-i18n="key.shop"><kbd>E</kbd> 货摊</span>
         <span data-i18n="key.pause"><kbd>Esc</kbd> 暂停</span>
       </div>
       <div class="keys touch-only">
@@ -1132,6 +1291,75 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     </div>
   </div>
 
+  <!-- ================= 商店 ================= -->
+  <div id="screen-shop" class="screen hidden">
+    <div class="screen-inner shop-inner">
+      <div class="lang-row"><button class="lang-btn" type="button" data-lang-toggle>EN</button></div>
+      <div class="eyebrow"><span></span><b data-i18n="shop.eyebrow">山货铺</b><span></span></div>
+      <h2 class="sub-title" data-i18n="shop.title">老猎人的摊子</h2>
+      <p class="tagline" data-i18n="shop.tagline">小人身上的金币，在这里换成真家伙。</p>
+      <div class="shop-wallet">
+        <span data-i18n="shop.wallet">你身上的金币</span>
+        <b id="shop-gold">0</b>
+      </div>
+      <div id="shop-msg" class="shop-msg"></div>
+      <div class="shop-grid">
+        <button class="shop-item" type="button" data-buy="slime">
+          <span class="si-icon slime" data-i18n="hud.icon.slime">粘</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.slime">粘液枪</b>
+            <em class="si-desc" data-i18n="shop.slime.desc">打中就把小人粘在原地，动不了也打不着你。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">90</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="quicksand">
+          <span class="si-icon quicksand" data-i18n="hud.icon.quicksand">沙</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.quicksand">流沙枪</b>
+            <em class="si-desc" data-i18n="shop.quicksand.desc">沙子陷进去就往下沉，整个人被埋掉。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">170</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="gatling">
+          <span class="si-icon gatling" data-i18n="hud.icon.gatling">加</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.gatling">加特林</b>
+            <em class="si-desc" data-i18n="shop.gatling.desc">摇起来越打越快，一梭子 220 发，弹幕压过去。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">320</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="cannon">
+          <span class="si-icon cannon" data-i18n="hud.icon.cannon">炮</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.cannon">大炮</b>
+            <em class="si-desc" data-i18n="shop.cannon.desc">一发炸开一片，范围 150。自己别站太近。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">460</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+      </div>
+      <div class="shop-note" data-i18n="shop.note">买下会直接装备在身上，按 5 – 8 或滚轮切换。金币来自打死的小人。</div>
+      <div class="btn-row">
+        <button id="btn-shop-close" class="big-btn" data-i18n="shop.close">离开摊子<span class="arrow">→</span></button>
+      </div>
+    </div>
+  </div>
+
   <div id="err"></div>
 </div>
 <script>
@@ -1182,13 +1410,13 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       'menu.eyebrow': '无尽围猎 · 暮色山林',
       'menu.title': '打小人',
       'menu.tagline': '山里的东西越聚越多。别停手。',
-      'menu.brief': '你是这片林子里唯一还站着的人。小人从树影里涌出来，用拳头、用刀。你有步枪、猎刀、手榴弹，和一双拳头。<br>山腰的庇护所里有一个地洞——钻进去，它们就碰不到你，只会在上面互相撕咬。',
+      'menu.brief': '你是这片林子里唯一还站着的人。小人从树影里涌出来，用拳头、用刀。你有步枪、猎刀、手榴弹，和一双拳头。<br>山腰的庇护所里有一个地洞——钻进去，它们就碰不到你，只会在上面互相撕咬。<br>南门外支着老猎人的货摊：用小人身上掉的金币，换粘液枪、流沙枪、加特林和大炮。五台猎犬机器人会跟着你一起开火。',
       'menu.card1.key': '命',
       'menu.card1.title': '1000 点生命',
       'menu.card1.text': '每秒回复 10 点。被围住时会掉得比回复快，靠走位和翻滚活下来。',
       'menu.card2.key': '械',
       'menu.card2.title': '四种打法',
-      'menu.card2.text': '拳 18 · 猎刀 48 并造成流血 · 步枪 26 一发共 30 发 · 手榴弹 260 范围伤害。',
+      'menu.card2.text': '拳 18 · 猎刀 48 并造成流血 · 步枪 26 一发共 30 发 · 手榴弹 260 范围伤害。货摊还能买到四把更狠的。',
       'menu.card3.key': '敌',
       'menu.card3.title': '杀不完的小人',
       'menu.card3.text': '没有血条，打死会不断重生。它们会围攻你，也会互相捅刀、被手榴弹炸飞。',
@@ -1270,7 +1498,44 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       'pickup.full': '满血',
       'combo.rampage': '杀疯了 ×{0}',
       'hole.label': '地洞 · 按 E 钻进去',
-      'hole.touch': '地洞 · 点右下「洞」'
+      'hole.touch': '地洞 · 点右下「洞」',
+      'hud.gold': '金币',
+      'hud.touch.shop': '店',
+      'hud.short.slime': '粘液枪',
+      'hud.short.quicksand': '流沙枪',
+      'hud.short.gatling': '加特林',
+      'hud.short.cannon': '大炮',
+      'hud.weapon.slime': '粘液枪',
+      'hud.weapon.quicksand': '流沙枪',
+      'hud.weapon.gatling': '加特林',
+      'hud.weapon.cannon': '大炮',
+      'hud.icon.slime': '粘',
+      'hud.icon.quicksand': '沙',
+      'hud.icon.gatling': '加',
+      'hud.icon.cannon': '炮',
+      'key.shop': '<kbd>E</kbd> 货摊',
+      'shop.eyebrow': '山货铺 · 只收金币',
+      'shop.title': '老猎人的摊子',
+      'shop.tagline': '小人身上的金币，在这里换成真家伙。',
+      'shop.wallet': '你身上的金币',
+      'shop.unit': '金币',
+      'shop.owned': '已拥有',
+      'shop.note': '买下会直接装备在身上，按 5 – 8 或滚轮切换。金币来自打死的小人。',
+      'shop.close': '离开摊子<span class="arrow">→</span>',
+      'shop.slime.desc': '打中就把小人粘在原地，动不了也打不着你。',
+      'shop.quicksand.desc': '沙子陷进去就往下沉，整个人被埋掉。',
+      'shop.gatling.desc': '摇起来越打越快，一梭子 220 发，弹幕压过去。',
+      'shop.cannon.desc': '一发炸开一片，范围 150。自己别站太近。',
+      'shop.needMore': '还差 {0} 金币',
+      'shop.hint': '打开货摊',
+      'shop.sign': '货',
+      'toast.shopNear': '南边支了个货摊，按 E 用金币换家伙。',
+      'toast.companions': '五台猎犬机器人跟上了你。',
+      'toast.bought': '买下{0}，已装备。',
+      'toast.alreadyOwned': '这个已经在你身上了。',
+      'toast.needShop': '先去货摊买下来才能用。',
+      'toast.poor': '金币不够，再去打几个小人。',
+      'toast.gold': '+{0}'
     },
     en: {
       'meta.title': 'Little Men · Dusk Forest',
@@ -1279,13 +1544,13 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       'menu.eyebrow': 'ENDLESS HUNT · DUSK FOREST',
       'menu.title': 'LITTLE MEN',
       'menu.tagline': `They keep coming out of the woods. Don't stop.`,
-      'menu.brief': `You're the last one standing in these woods. Little men pour out of the trees with fists and knives. You have a rifle, a knife, grenades, and your bare hands. <br>There's a hole in the shelter floor — climb in, and they'll tear each other apart instead.`,
+      'menu.brief': `You're the last one standing in these woods. Little men pour out of the trees with fists and knives. You have a rifle, a knife, grenades, and your bare hands. <br>There's a hole in the shelter floor — climb in, and they'll tear each other apart instead. <br>South of the door, an old hunter keeps a stall: trade the gold these little men drop for a slime gun, quicksand gun, gatling or cannon. Five hound robots fight beside you.`,
       'menu.card1.key': 'HP',
       'menu.card1.title': '1000 HP',
       'menu.card1.text': 'Regenerate 10 HP every second. When surrounded, you lose it faster than you regain it. Keep moving and dodge.',
       'menu.card2.key': 'KIT',
       'menu.card2.title': 'Four ways to fight',
-      'menu.card2.text': 'Fists 18 · Knife 48 + bleed · Rifle 26 per shot, 30-round mag · Grenade 260 area damage.',
+      'menu.card2.text': 'Fists 18 · Knife 48 + bleed · Rifle 26 per shot, 30-round mag · Grenade 260 area damage. The stall sells four nastier tools.',
       'menu.card3.key': 'FOE',
       'menu.card3.title': 'Endless little men',
       'menu.card3.text': `No health bars. They respawn endlessly. They'll swarm you, stab each other, and get blown up by grenades.`,
@@ -1367,7 +1632,44 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       'pickup.full': 'FULL HP',
       'combo.rampage': 'RAMPAGE ×{0}',
       'hole.label': 'HOLE · Press E to enter',
-      'hole.touch': 'HOLE · Tap the button'
+      'hole.touch': 'HOLE · Tap the button',
+      'hud.gold': 'GOLD',
+      'hud.touch.shop': 'Shop',
+      'hud.short.slime': 'Slime',
+      'hud.short.quicksand': 'Sand',
+      'hud.short.gatling': 'Gatling',
+      'hud.short.cannon': 'Cannon',
+      'hud.weapon.slime': 'Slime Gun',
+      'hud.weapon.quicksand': 'Quicksand Gun',
+      'hud.weapon.gatling': 'Gatling',
+      'hud.weapon.cannon': 'Cannon',
+      'hud.icon.slime': 'S',
+      'hud.icon.quicksand': 'Q',
+      'hud.icon.gatling': 'G',
+      'hud.icon.cannon': 'C',
+      'key.shop': '<kbd>E</kbd> Trader',
+      'shop.eyebrow': 'TRADER · GOLD ONLY',
+      'shop.title': `The old hunter's stall`,
+      'shop.tagline': 'Gold from little men buys real hardware here.',
+      'shop.wallet': 'Gold on you',
+      'shop.unit': 'gold',
+      'shop.owned': 'OWNED',
+      'shop.note': 'Whatever you buy is equipped on the spot. Switch with 5 – 8 or the wheel. Gold comes from kills.',
+      'shop.close': 'LEAVE STALL<span class="arrow">→</span>',
+      'shop.slime.desc': 'Glues little men in place — they cannot move or hit you.',
+      'shop.quicksand.desc': 'They sink, and the sand buries them whole.',
+      'shop.gatling.desc': 'Spins up to a 220-round wall of lead.',
+      'shop.cannon.desc': 'One shell clears a 150-radius patch. Do not stand close.',
+      'shop.needMore': '{0} gold short',
+      'shop.hint': 'Open the stall',
+      'shop.sign': 'GOODS',
+      'toast.shopNear': 'A stall opened south of the shelter. Press E to buy with gold.',
+      'toast.companions': 'Five hound robots fell in behind you.',
+      'toast.bought': '{0} bought and equipped.',
+      'toast.alreadyOwned': 'You already carry that.',
+      'toast.needShop': 'Buy it at the stall first.',
+      'toast.poor': 'Not enough gold. Go kill a few more.',
+      'toast.gold': '+{0}'
     }
   };
 
@@ -1556,6 +1858,11 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     reload() { this.noise(0.045, 0.13, 2600, 1300, 'bandpass', 3); this.noise(0.05, 0.11, 1800, 900, 'bandpass', 3); },
     hole() { this.tone(150, 55, 0.32, 0.16, 'sine'); this.noise(0.3, 0.12, 500, 90, 'lowpass'); },
     click() { this.tone(500, 420, 0.05, 0.06, 'triangle'); },
+    buy() {
+      this.tone(880, 1320, 0.09, 0.07, 'triangle');
+      this.tone(1320, 1760, 0.12, 0.05, 'triangle', 0.07);
+    },
+    drone() { this.tone(820, 380, 0.04, 0.025, 'square'); },
     dry() { this.noise(0.05, 0.09, 1400, 700, 'bandpass', 4); },
     setDuck(v) {
       if (!this.ac) return;
@@ -1584,18 +1891,27 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     { x: 1845, y: 1958, w: 206, h: 22 }    // 南墙右
   ];
 
+  // 山货铺：庇护所南门外东侧的小摊
+  const SHOP = { x: 2124, y: 2156, r: 132, w: 168, h: 54 };
+
   const WEAPONS = {
     fist: { name: '拳头', cd: 0.30, damage: 18, range: 54, arc: 1.25, knock: 300, score: 220 },
     knife: { name: '猎刀', cd: 0.42, damage: 48, range: 68, arc: 1.0, knock: 150, bleed: 8, score: 180 },
     gun: { name: '步枪', cd: 0.105, damage: 26, mag: 30, reload: 1.5, spread: 0.03, speed: 1650, score: 100 },
-    nade: { name: '手榴弹', cd: 0.8, damage: 260, radius: 155, score: 140 }
+    nade: { name: '手榴弹', cd: 0.8, damage: 260, radius: 155, score: 140 },
+    slime: { name: '粘液枪', cd: 0.36, damage: 13, mag: 24, reload: 1.7, spread: 0.1, speed: 1080, score: 120, price: 90, kind: 'slime' },
+    quicksand: { name: '流沙枪', cd: 0.72, damage: 16, mag: 12, reload: 2.1, spread: 0.05, speed: 980, score: 210, price: 170, kind: 'sand' },
+    gatling: { name: '加特林', cd: 0.058, damage: 17, mag: 220, reload: 2.9, spread: 0.085, speed: 1480, score: 110, price: 320, kind: 'bullet' },
+    cannon: { name: '大炮', cd: 0.95, damage: 205, mag: 6, reload: 2.5, spread: 0.012, speed: 760, score: 240, price: 460, kind: 'shell', blast: 150 }
   };
-  const WORDER = ['fist', 'knife', 'gun', 'nade'];
+  const WORDER = ['fist', 'knife', 'gun', 'nade', 'slime', 'quicksand', 'gatling', 'cannon'];
+  const SHOP_IDS = ['slime', 'quicksand', 'gatling', 'cannon'];
+  const ROBOT_TINTS = ['#8fd8c6', '#e6bd7c', '#9fb9e8', '#dc9ab4', '#b6dc92'];
 
   const ETYPES = {
-    fist: { hp: 48, speed: 106, dmg: 8, range: 38, cd: 1.05, r: 13, score: 100 },
-    knife: { hp: 40, speed: 124, dmg: 15, range: 50, cd: 0.9, r: 12.5, score: 150 },
-    rage: { hp: 80, speed: 140, dmg: 11, range: 42, cd: 0.72, r: 14, score: 220 }
+    fist: { hp: 48, speed: 106, dmg: 8, range: 38, cd: 1.05, r: 13, score: 100, gold: 2 },
+    knife: { hp: 40, speed: 124, dmg: 15, range: 50, cd: 0.9, r: 12.5, score: 150, gold: 3 },
+    rage: { hp: 80, speed: 140, dmg: 11, range: 42, cd: 0.72, r: 14, score: 220, gold: 5 }
   };
 
   // ---------------------------------------------------------------- world data
@@ -1630,6 +1946,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   function addTree(x, y, s, kind) {
     if (x < 80 || x > WORLD - 80 || y < 80 || y > WORLD - 80) return false;
     if (!outsideShelter(x, y, 90) || nearSpawn(x, y, 40)) return false;
+    if (dist2(x, y, SHOP.x, SHOP.y) < 205 * 205) return false;
     const cr = 10 * s;
     for (const t of trees) {
       if (dist2(x, y, t.x, t.y) < (t.cr + cr + 20) * (t.cr + cr + 20)) return false;
@@ -1648,6 +1965,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   function addRock(x, y, r, extra) {
     if (x < 70 || x > WORLD - 70 || y < 70 || y > WORLD - 70) return false;
     if (!outsideShelter(x, y, 80) || nearSpawn(x, y, 60)) return false;
+    if (dist2(x, y, SHOP.x, SHOP.y) < 190 * 190) return false;
     for (const o of rocks) if (dist2(x, y, o.x, o.y) < (o.r + r + 26) * (o.r + r + 26)) return false;
     for (const t of trees) if (dist2(x, y, t.x, t.y) < (r + t.cr + 16) * (r + t.cr + 16)) return false;
     const pts = [];
@@ -1664,6 +1982,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   function addBarrel(x, y) {
     if (x < 100 || x > WORLD - 100 || y < 100 || y > WORLD - 100) return;
     if (!outsideShelter(x, y, 70) || nearSpawn(x, y, 90)) return;
+    if (dist2(x, y, SHOP.x, SHOP.y) < 170 * 170) return;
     if (obstacleNear(x, y, 26)) return;
     barrels.push({ x, y, r: 13, hp: 45, maxHp: 45, exploded: false, respawn: 0, seed: rnd(0, 99), ignite: -1 });
   }
@@ -1688,6 +2007,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   for (let i = 0; i < 280; i++) {
     const x = rnd(60, WORLD - 60), y = rnd(60, WORLD - 60);
     if (!outsideShelter(x, y, 40)) continue;
+    if (dist2(x, y, SHOP.x, SHOP.y) < 150 * 150) continue;
     bushes.push({ x, y, r: rnd(11, 24), seed: rnd(0, 999), berries: chance(0.25) });
   }
   for (let i = 0; i < 460; i++) {
@@ -1884,11 +2204,12 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
 
   let state = 'menu';
   let time = 0, kills = 0, score = 0, combo = 0, comboT = 0, infightKills = 0;
+  let gold = 0;
   let best = 0;
   try { best = Math.max(0, parseInt(localStorage.getItem('daxiaoren.best') || '0', 10) || 0); } catch (e) { best = 0; }
 
   let player = null;
-  let enemies = [], bullets = [], grenades = [], particles = [], texts = [],
+  let enemies = [], companions = [], bullets = [], grenades = [], particles = [], texts = [],
     pickups = [], decals = [], slashes = [], shocks = [];
 
   let cam = { x: SHELTER.cx, y: SHELTER.cy + 60 };
@@ -1901,16 +2222,23 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   const HUD = {
     hpFill: $('#hp-fill'), hpNow: $('#hp-now'), stamFill: $('#stam-fill'),
     kills: $('#kills'), score: $('#score'), clock: $('#clock'), best: $('#best'),
+    gold: $('#gold'),
     compass: $('#compass'), compassArrow: $('#compass-arrow'), compassDist: $('#compass-dist'),
     combo: $('#combo'), comboX: $('#combo-x'), toast: $('#toast'),
     reloadLine: $('#reload-line'),
     ammoGun: $('#ammo-gun'), ammoNade: $('#ammo-nade'), ammoFist: $('#ammo-fist'), ammoKnife: $('#ammo-knife'),
     hint: $('#hint'), hintText: $('#hint span'),
     hiddenNote: $('#hidden-note'),
-    tbHole: $('#tb-hole'),
-    cards: {}
+    tbHole: $('#tb-hole'), tbShop: $('#tb-shop'),
+    cards: {}, ammo: {}, reloadLines: {}
   };
-  for (const w of WORDER) HUD.cards[w] = $(`.wcard[data-w="${w}"]`);
+  for (const w of WORDER) {
+    HUD.cards[w] = $(`.wcard[data-w="${w}"]`);
+    const am = $('#ammo-' + w);
+    if (am) HUD.ammo[w] = am;
+    const rl = w === 'gun' ? HUD.reloadLine : $('#reload-line-' + w);
+    if (rl) HUD.reloadLines[w] = rl;
+  }
 
   function toast(msg, ms = 2600) {
     if (!HUD.toast) return;
@@ -1934,6 +2262,12 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       aim: -Math.PI / 2,
       weapon: 'gun',
       mag: WEAPONS.gun.mag, magSize: WEAPONS.gun.mag,
+      mags: {
+        gun: WEAPONS.gun.mag, slime: WEAPONS.slime.mag, quicksand: WEAPONS.quicksand.mag,
+        gatling: WEAPONS.gatling.mag, cannon: WEAPONS.cannon.mag
+      },
+      owned: {},
+      spin: 0,
       grenades: 3, maxGrenades: 5,
       reload: 0, reloadTotal: WEAPONS.gun.reload,
       cd: 0, nadeCd: 0,
@@ -1959,13 +2293,17 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     $('#hud').classList.remove('hidden');
     if (IS_TOUCH) document.body.classList.add('touch');
     toast(tr('toast.survive'), 2600);
+    setTimeout(() => { if (state === 'playing' && !player.dead) toast(tr('toast.shopNear'), 3200); }, 3400);
+    setTimeout(() => { if (state === 'playing' && !player.dead) toast(tr('toast.companions'), 3000); }, 7200);
   }
 
   function resetGame() {
     time = 0; kills = 0; score = 0; combo = 0; comboT = 0; infightKills = 0;
+    gold = 0;
     enemies = []; bullets = []; grenades = []; particles = []; texts = [];
     pickups = []; decals = []; slashes = []; shocks = [];
     player = makePlayer();
+    makeCompanions();
     cam.x = player.x; cam.y = player.y + 40;
     shake = 0; blastFlash = 0; hurtFlash = 0; muzzleLight = 0;
     spawnTimer = 1.0; footT = 0; sprintLock = 0;
@@ -1975,9 +2313,16 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     spawnEnemy('fist', 760, 980);
     spawnEnemy('fist', 820, 1000);
     syncWeaponUI();
+    refreshShopUI();
     HUD.hiddenNote.classList.add('hidden');
     HUD.hint.classList.add('hidden');
     HUD.combo.classList.add('hidden');
+    const shopEl = $('#screen-shop');
+    if (shopEl) shopEl.classList.add('hidden');
+  }
+
+  function weaponUnlocked(w) {
+    return SHOP_IDS.indexOf(w) < 0 || !!(player && player.owned[w]);
   }
 
   function syncWeaponUI() {
@@ -1985,31 +2330,53 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     for (const w of WORDER) {
       const card = HUD.cards[w];
       if (!card) continue;
+      const cfg = WEAPONS[w];
+      const locked = !weaponUnlocked(w);
+      card.classList.toggle('locked', locked);
       card.classList.toggle('active', player.weapon === w);
-      card.classList.toggle('empty', (w === 'nade' && player.grenades <= 0) || (w === 'gun' && player.mag <= 0 && player.reload <= 0));
+      const noAmmo = cfg.mag !== undefined && player.weapon === w && player.mag <= 0 && player.reload <= 0;
+      card.classList.toggle('empty', !locked && ((w === 'nade' && player.grenades <= 0) || noAmmo));
     }
+    if (HUD.gold) HUD.gold.textContent = String(gold);
   }
 
   function selectWeapon(w) {
     if (!player || state !== 'playing' || player.hidden || player.dead) return;
-    if (!WEAPONS[w] || player.weapon === w) return;
+    const cfg = WEAPONS[w];
+    if (!cfg || player.weapon === w) return;
+    if (!weaponUnlocked(w)) { toast(tr('toast.needShop'), 1600); return; }
+    const old = WEAPONS[player.weapon];
+    if (old && old.mag !== undefined) player.mags[player.weapon] = player.mag;
     player.weapon = w;
+    if (cfg.mag !== undefined) {
+      if (player.mags[w] === undefined) player.mags[w] = cfg.mag;
+      player.mag = player.mags[w];
+      player.magSize = cfg.mag;
+    }
+    player.reload = 0;
+    player.spin = 0;
     player.cd = Math.max(player.cd, 0.1);
     SFX.click();
     syncWeaponUI();
-    if (w === 'gun' && player.mag <= 0 && player.reload <= 0) startReload();
+    if (cfg.mag !== undefined && player.mag <= 0) startReload();
   }
 
   function cycleWeapon(dir) {
     if (!player) return;
-    const i = WORDER.indexOf(player.weapon);
-    selectWeapon(WORDER[(i + dir + WORDER.length) % WORDER.length]);
+    let i = WORDER.indexOf(player.weapon);
+    for (let k = 0; k < WORDER.length; k++) {
+      i = (i + dir + WORDER.length) % WORDER.length;
+      if (weaponUnlocked(WORDER[i])) { selectWeapon(WORDER[i]); return; }
+    }
   }
 
   function startReload() {
-    if (!player || player.weapon !== 'gun' || player.reload > 0 || player.mag >= player.magSize) return;
-    player.reload = WEAPONS.gun.reload;
-    player.reloadTotal = WEAPONS.gun.reload;
+    if (!player) return;
+    const cfg = WEAPONS[player.weapon];
+    if (!cfg || cfg.mag === undefined) return;
+    if (player.reload > 0 || player.mag >= player.magSize) return;
+    player.reload = cfg.reload || 1.5;
+    player.reloadTotal = player.reload;
     SFX.reload();
   }
 
@@ -2040,6 +2407,113 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     SFX.hole();
     SFX.setDuck(0.42);
     HUD.hiddenNote.classList.remove('hidden');
+  }
+
+  // ---------------------------------------------------------------- shop
+  let shopMsgTimer = null;
+
+  function nearShop() {
+    return playerAlive() && !player.dead && !player.hidden &&
+      dist(player.x, player.y, SHOP.x, SHOP.y) < SHOP.r;
+  }
+
+  function shopMsg(text, bad) {
+    const el = $('#shop-msg');
+    if (!el) return;
+    el.textContent = text;
+    el.classList.toggle('bad', !!bad);
+    el.classList.add('show');
+    if (shopMsgTimer) clearTimeout(shopMsgTimer);
+    shopMsgTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  function refreshShopUI() {
+    const gEl = $('#shop-gold');
+    if (gEl) gEl.textContent = String(gold);
+    if (HUD.gold) HUD.gold.textContent = String(gold);
+    for (const id of SHOP_IDS) {
+      const el = document.querySelector(`.shop-item[data-buy="${id}"]`);
+      if (!el) continue;
+      const price = WEAPONS[id].price;
+      const pr = el.querySelector('.si-price');
+      if (pr) pr.textContent = String(price);
+      const owned = !!(player && player.owned[id]);
+      el.classList.toggle('owned', owned);
+      el.classList.toggle('poor', !owned && gold < price);
+      el.setAttribute('aria-disabled', owned ? 'true' : 'false');
+    }
+  }
+
+  function openShop() {
+    if (state !== 'playing' || !playerAlive() || player.hidden) return;
+    if (!nearShop()) return;
+    state = 'shop';
+    mouse.down = false;
+    mouse.edge = false;
+    touch.moveId = null; touch.aimId = null;
+    keysReset();
+    refreshShopUI();
+    shopMsg('');
+    $('#screen-shop').classList.remove('hidden');
+    $('#hud').classList.add('hidden');
+    SFX.click();
+    SFX.setDuck(0.4);
+  }
+
+  function closeShop() {
+    if (state !== 'shop') return;
+    state = 'playing';
+    $('#screen-shop').classList.add('hidden');
+    $('#hud').classList.remove('hidden');
+    hideToast();
+    SFX.click();
+    SFX.setDuck(player && player.hidden ? 0.45 : 1);
+  }
+
+  function equipBought(id) {
+    if (!player) return;
+    const cfg = WEAPONS[id];
+    const old = WEAPONS[player.weapon];
+    if (old && old.mag !== undefined) player.mags[player.weapon] = player.mag;
+    player.weapon = id;
+    if (cfg.mag !== undefined) {
+      if (player.mags[id] === undefined) player.mags[id] = cfg.mag;
+      player.mag = player.mags[id];
+      player.magSize = cfg.mag;
+    }
+    player.reload = 0;
+    player.cd = 0.24;
+    player.spin = 0;
+    syncWeaponUI();
+  }
+
+  function buyWeapon(id) {
+    if (state !== 'shop' || !player) return;
+    const cfg = WEAPONS[id];
+    if (!cfg || cfg.price === undefined) return;
+    if (player.owned[id]) {
+      SFX.dry();
+      shopMsg(tr('toast.alreadyOwned'), true);
+      return;
+    }
+    if (gold < cfg.price) {
+      SFX.dry();
+      shopMsg(tr('shop.needMore', cfg.price - gold), true);
+      return;
+    }
+    gold -= cfg.price;
+    player.owned[id] = true;
+    SFX.buy();
+    equipBought(id);
+    refreshShopUI();
+    shopMsg(tr('toast.bought', tr('hud.weapon.' + id)));
+    for (let i = 0; i < 12; i++) {
+      addParticle({
+        kind: 'spark', x: SHOP.x + rnd(-26, 26), y: SHOP.y - 30,
+        vx: rnd(-70, 70), vy: rnd(-150, -40), life: rnd(0.3, 0.8),
+        size: rnd(1, 2.3), color: '246,205,126', drag: 1.6
+      });
+    }
   }
 
   // ---------------------------------------------------------------- enemies
@@ -2077,6 +2551,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       target: null, retargetT: rnd(0, 0.5),
       hurtT: 0, stun: 0, attackAnim: 0,
       bleed: 0, bleedT: 0, bleedTick: 0,
+      stuckT: 0, buryT: 0, buryMax: 0,
       vx: 0, vy: 0,
       facing: Math.atan2(oy - y, ox - x),
       phase: rnd(0, 10), moving: false,
@@ -2251,6 +2726,45 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
           if (e.dead) continue;
         }
       }
+      // 流沙：陷进去就往下沉，沉到底直接埋掉
+      if (e.buryT > 0) {
+        e.buryT -= dt;
+        e.moving = false;
+        e.vx = 0; e.vy = 0;
+        if (chance(dt * 20)) {
+          addParticle({
+            kind: 'dust', x: e.x + rnd(-9, 9), y: e.y + rnd(-4, 8),
+            vx: rnd(-20, 20), vy: rnd(-40, -8), life: rnd(0.3, 0.6),
+            size: rnd(2, 5), color: '198,170,114', drag: 1.4
+          });
+        }
+        if (e.buryT <= 0) {
+          addDecal('scorch', e.x, e.y, 12, 0);
+          for (let i = 0; i < 8; i++) {
+            addParticle({
+              kind: 'dust', x: e.x + rnd(-10, 10), y: e.y + rnd(-6, 8),
+              vx: rnd(-40, 40), vy: rnd(-60, -10), life: rnd(0.4, 0.9),
+              size: rnd(3, 7), color: '176,148,96', drag: 1.2
+            });
+          }
+          killEnemy(e, 'quicksand');
+        }
+        continue;
+      }
+      // 粘液：粘在原地，动不了也打不着人
+      if (e.stuckT > 0) {
+        e.stuckT -= dt;
+        e.moving = false;
+        if (chance(dt * 8)) {
+          addParticle({
+            kind: 'spark', x: e.x + rnd(-8, 8), y: e.y + rnd(-6, 8),
+            vx: rnd(-12, 12), vy: rnd(-10, 4), life: rnd(0.3, 0.7),
+            size: rnd(1, 2.4), color: '150,220,120', drag: 2
+          });
+        }
+        if (e.stuckT <= 0) e.stuckT = 0;
+        continue;
+      }
       if (e.stun > 0) {
         e.stun -= dt;
         if (Math.abs(e.vx) + Math.abs(e.vy) > 1) {
@@ -2373,6 +2887,84 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     if (enemies.some(e => e.dead)) enemies = enemies.filter(e => !e.dead);
   }
 
+  // ---------------------------------------------------------------- 同伴机器人
+  function makeCompanions() {
+    companions = [];
+    for (let i = 0; i < 5; i++) {
+      const a = -Math.PI / 2 + i * TAU / 5;
+      companions.push({
+        idx: i,
+        x: player.x + Math.cos(a) * 88,
+        y: player.y + Math.sin(a) * 88 + 10,
+        r: 11,
+        aim: a,
+        cd: rnd(0.35, 1.2),
+        bob: rnd(0, TAU),
+        tint: ROBOT_TINTS[i],
+        target: null,
+        retargetT: rnd(0, 0.4),
+        muzzle: 0,
+        moving: false
+      });
+    }
+  }
+
+  function updateCompanions(dt) {
+    if (!player) return;
+    for (let i = 0; i < companions.length; i++) {
+      const c = companions[i];
+      c.bob += dt;
+      c.cd = Math.max(0, c.cd - dt);
+      c.muzzle = Math.max(0, c.muzzle - dt);
+
+      // 绕着玩家排成一个会呼吸的队形
+      const baseA = -Math.PI / 2 + i * TAU / 5 + Math.sin(time * 0.35 + i * 1.7) * 0.2;
+      const ring = 74 + Math.sin(time * 0.8 + i * 2.1) * 7;
+      const tx = player.x + Math.cos(baseA) * ring;
+      const ty = player.y + Math.sin(baseA) * ring + 8;
+      const d = dist(c.x, c.y, tx, ty);
+      c.moving = d > 8;
+      if (d > 8) {
+        const sp = Math.min(440, 90 + d * 2.2);
+        c.x += (tx - c.x) / d * sp * dt;
+        c.y += (ty - c.y) / d * sp * dt;
+        resolveWorld(c);
+      }
+
+      c.retargetT -= dt;
+      if (c.retargetT <= 0 || !c.target || c.target.dead || c.target.spawnT > 0) {
+        c.target = nearestEnemy(c.x, c.y, 620);
+        c.retargetT = rnd(0.3, 0.6);
+      }
+      const tgt = c.target;
+      if (tgt) {
+        const ta = Math.atan2(tgt.y - c.y, tgt.x - c.x);
+        c.aim = angleLerp(c.aim, ta, 1 - Math.pow(0.0005, dt));
+        const dd = dist(c.x, c.y, tgt.x, tgt.y);
+        if (c.cd <= 0 && dd < 620 && !wallBlocked(c.x, c.y, tgt.x, tgt.y)) {
+          c.cd = rnd(0.5, 0.85);
+          c.muzzle = 0.07;
+          const a = c.aim + rnd(-0.04, 0.04);
+          const sx = c.x + Math.cos(a) * 22;
+          const sy = c.y + Math.sin(a) * 22 - 18;
+          bullets.push({
+            x: sx, y: sy, px: sx, py: sy,
+            vx: Math.cos(a) * 1560, vy: Math.sin(a) * 1560,
+            life: 0.5, damage: 15, by: 'drone', kind: 'drone',
+            color: '160,228,255', radius: 2.2
+          });
+          addParticle({
+            kind: 'flash', x: sx, y: sy, vx: 0, vy: 0, life: 0.05, maxLife: 0.05,
+            size: 6, color: '190,240,255', drag: 0
+          });
+          if (inView(c.x, c.y, 240)) SFX.drone();
+        }
+      } else {
+        c.aim = angleLerp(c.aim, baseA, 1 - Math.pow(0.002, dt));
+      }
+    }
+  }
+
   // ---------------------------------------------------------------- damage
   function addParticle(p) {
     if (particles.length > 760) particles.shift();
@@ -2449,6 +3041,12 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       e.vx += Math.cos(a) * opt.knock;
       e.vy += Math.sin(a) * opt.knock;
     }
+    if (opt.stuck) e.stuckT = Math.max(e.stuckT, opt.stuck);
+    if (opt.bury) {
+      e.buryT = Math.max(e.buryT, opt.bury);
+      e.buryMax = Math.max(e.buryMax, e.buryT);
+      e.stuckT = Math.max(e.stuckT, e.buryT);
+    }
     if (e.stun < (opt.stun || 0)) e.stun = opt.stun || 0;
     bloodBurst(e.x, e.y, dmg > 40 ? 9 : (dmg > 20 ? 5 : 3), Math.min(300, 70 + dmg * 3));
     if (!opt.noText && !opt.silent) addText(e.x, e.y, String(Math.round(dmg)), '#f6e3bd', dmg >= 40 ? 17 : 14);
@@ -2467,6 +3065,10 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       comboT = 4.2;
       const base = (WEAPONS[by] && WEAPONS[by].score) || 100;
       score += Math.round(base * combo);
+      const gBase = (ETYPES[e.type] && ETYPES[e.type].gold) || 2;
+      const reward = Math.max(1, Math.round(gBase * (1 + Math.max(0, combo - 1) * 0.22)));
+      gold += reward;
+      if (chance(0.6) || reward >= 4) addText(e.x, e.y - 30, tr('toast.gold', reward), '#f4c877', 12);
       if (combo >= 3) {
         addText(e.x, e.y - 16, combo >= 6 ? tr('combo.rampage', combo) : '×' + combo, '#f2c87e', 17);
       }
@@ -2561,36 +3163,53 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
 
   // ---------------------------------------------------------------- weapons
   function fireGun() {
-    const cfg = WEAPONS.gun;
+    const w = player.weapon;
+    const cfg = WEAPONS[w];
+    if (!cfg || cfg.mag === undefined) return;
     if (player.reload > 0) return;
     if (player.mag <= 0) {
       SFX.dry();
       startReload();
       return;
     }
+    let cd = cfg.cd;
+    if (w === 'gatling') {
+      player.spin = Math.min(1, (player.spin || 0) + 0.13);
+      cd = cfg.cd * (2.05 - 1.05 * player.spin);
+    }
     player.mag--;
-    player.cd = cfg.cd;
-    player.invuln = Math.max(player.invuln, 0.03);
+    player.cd = cd;
+    player.invuln = Math.max(player.invuln, 0.02);
+    player.attackAnim = 0.1;
     const spread = rnd(-cfg.spread, cfg.spread);
     const a = player.aim + spread;
     const ox = Math.cos(player.aim), oy = Math.sin(player.aim);
-    const sx = player.x + ox * 26 - oy * 5;
-    const sy = player.y + oy * 26 + ox * 5;
+    const barrel = w === 'cannon' ? 30 : 26;
+    const sx = player.x + ox * barrel - oy * 5;
+    const sy = player.y + oy * barrel + ox * 5;
+    const kind = cfg.kind || 'bullet';
+    const color = kind === 'slime' ? '152,226,124'
+      : kind === 'sand' ? '232,202,140'
+        : kind === 'shell' ? '255,170,86'
+          : '255,214,140';
     bullets.push({
       x: sx, y: sy, px: sx, py: sy,
       vx: Math.cos(a) * cfg.speed, vy: Math.sin(a) * cfg.speed,
-      life: 0.8, damage: cfg.damage, by: 'gun'
+      life: kind === 'shell' ? 1.3 : 0.8,
+      damage: cfg.damage, by: w, kind, color,
+      radius: kind === 'shell' ? 6 : 2.4
     });
     // 枪口火焰 + 弹壳
     addParticle({
       kind: 'flash', x: sx, y: sy, vx: 0, vy: 0, life: 0.06, maxLife: 0.06,
-      size: rnd(10, 17), color: '255,224,150', drag: 0
+      size: (w === 'cannon' ? 26 : w === 'gatling' ? 12 : 16) * rnd(0.9, 1.2),
+      color: '255,224,150', drag: 0
     });
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < (w === 'cannon' ? 6 : 3); i++) {
       addParticle({
         kind: 'spark', x: sx, y: sy,
-        vx: Math.cos(a) * rnd(80, 260) + rnd(-60, 60), vy: Math.sin(a) * rnd(80, 260) + rnd(-60, 60),
-        life: rnd(0.08, 0.22), size: rnd(1, 2), color: '255,214,140', drag: 4
+        vx: Math.cos(a) * rnd(80, 300) + rnd(-60, 60), vy: Math.sin(a) * rnd(80, 300) + rnd(-60, 60),
+        life: rnd(0.08, 0.24), size: rnd(1, 2.4), color, drag: 4
       });
     }
     addParticle({
@@ -2598,9 +3217,12 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       vx: -oy * rnd(60, 120) + rnd(-20, 20), vy: ox * rnd(60, 120) + rnd(-20, 20),
       life: 0.8, size: 2, color: '196,164,96', drag: 2
     });
-    muzzleLight = 0.09;
-    shake = Math.max(shake, 1.7);
-    SFX.shot();
+    muzzleLight = w === 'cannon' ? 0.16 : 0.09;
+    shake = Math.max(shake, w === 'cannon' ? 7 : w === 'gatling' ? 1.2 : 1.7);
+    if (w === 'slime') SFX.noise(0.1, 0.09, 700, 300, 'lowpass', 2);
+    else if (w === 'quicksand') SFX.noise(0.16, 0.09, 480, 180, 'bandpass', 1.4);
+    else if (w === 'cannon') SFX.explosion();
+    else SFX.shot();
     if (player.mag <= 0) startReload();
     syncWeaponUI();
   }
@@ -2726,17 +3348,55 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     }
   }
 
+  function applyBulletHit(b, e, hx, hy) {
+    const ang = Math.atan2(b.vy, b.vx);
+    if (b.kind === 'slime') {
+      damageEnemy(e, b.damage, { by: 'slime', knock: 24, knockAng: ang, stuck: 2.4 });
+      for (const o of enemies) {
+        if (o === e || o.dead || o.spawnT > 0) continue;
+        if (dist(hx, hy, o.x, o.y) < 62) damageEnemy(o, b.damage * 0.45, { by: 'slime', stuck: 1.2, silent: true });
+      }
+      for (let i = 0; i < 7; i++) {
+        addParticle({
+          kind: 'spark', x: hx, y: hy, vx: rnd(-90, 90), vy: rnd(-100, 30),
+          life: rnd(0.25, 0.6), size: rnd(2, 5), color: '140,210,110', drag: 1.6
+        });
+      }
+    } else if (b.kind === 'sand') {
+      damageEnemy(e, b.damage, { by: 'quicksand', bury: 0.85 });
+      for (let i = 0; i < 10; i++) {
+        addParticle({
+          kind: 'dust', x: hx + rnd(-6, 6), y: hy + rnd(-6, 6),
+          vx: rnd(-70, 70), vy: rnd(-90, 10), life: rnd(0.3, 0.7),
+          size: rnd(2, 5), color: '206,178,120', drag: 1.4
+        });
+      }
+    } else if (b.kind === 'shell') {
+      explosionAt(hx, hy, WEAPONS.cannon.blast, b.damage, 'cannon');
+    } else {
+      damageEnemy(e, b.damage, { by: b.by || 'gun', knock: b.kind === 'drone' ? 20 : 42, knockAng: ang });
+      addParticle({
+        kind: 'hit', x: hx, y: hy, vx: 0, vy: 0, life: 0.12, size: 9,
+        color: b.kind === 'drone' ? '190,240,255' : '255,241,214', drag: 0
+      });
+    }
+  }
+
   function updateBullets(dt) {
     for (let i = bullets.length - 1; i >= 0; i--) {
       const b = bullets[i];
       b.life -= dt;
-      if (b.life <= 0) { bullets.splice(i, 1); continue; }
+      if (b.life <= 0) {
+        if (b.kind === 'shell') explosionAt(b.x, b.y, WEAPONS.cannon.blast, b.damage, 'cannon');
+        bullets.splice(i, 1);
+        continue;
+      }
       b.px = b.x; b.py = b.y;
       const nx = b.x + b.vx * dt, ny = b.y + b.vy * dt;
       let bt = 1, hitE = null, hitB = null, hitRock = null, hitWall = false;
       for (const e of enemies) {
         if (e.dead || e.spawnT > 0) continue;
-        const t = segCircleT(b.x, b.y, nx, ny, e.x, e.y, e.r + 3);
+        const t = segCircleT(b.x, b.y, nx, ny, e.x, e.y, e.r + (b.radius || 3));
         if (t >= 0 && t < bt) { bt = t; hitE = e; hitB = null; hitRock = null; hitWall = false; }
       }
       for (const bb of barrels) {
@@ -2755,8 +3415,10 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       if (bt < 1) {
         const hx = b.x + (nx - b.x) * bt, hy = b.y + (ny - b.y) * bt;
         if (hitE) {
-          damageEnemy(hitE, b.damage, { by: 'gun', knock: 42, knockAng: Math.atan2(b.vy, b.vx) });
-          addParticle({ kind: 'hit', x: hx, y: hy, vx: 0, vy: 0, life: 0.12, size: 9, color: '255,241,214', drag: 0 });
+          applyBulletHit(b, hitE, hx, hy);
+        } else if (b.kind === 'shell') {
+          if (hitB) damageBarrel(hitB, b.damage);
+          explosionAt(hx, hy, WEAPONS.cannon.blast, b.damage, 'cannon');
         } else if (hitB) {
           damageBarrel(hitB, b.damage);
           sparkBurst(hx, hy, 4, '255,200,120', 180);
@@ -3002,13 +3664,16 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
 
     const fireHeld = mouse.down || touch.aimId !== null;
     if (fireHeld) {
-      if (p.weapon === 'gun') {
-        if (p.reload <= 0 && p.cd <= 0) fireGun();
+      const wcfg = WEAPONS[p.weapon];
+      if (p.weapon === 'nade') {
+        if (mouse.edge || touch.fireEdge) throwNade();
       } else if (p.weapon === 'fist' || p.weapon === 'knife') {
         if (p.cd <= 0) doMelee();
-      } else if (p.weapon === 'nade') {
-        if (mouse.edge || touch.fireEdge) throwNade();
+      } else if (wcfg && wcfg.mag !== undefined) {
+        if (p.reload <= 0 && p.cd <= 0) fireGun();
       }
+    } else if (p.weapon === 'gatling') {
+      p.spin = Math.max(0, (p.spin || 0) - dt * 1.8);
     }
     if (mouse.edge) mouse.edge = false;
     if (touch.fireEdge) touch.fireEdge = false;
@@ -3061,6 +3726,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     if (!player) return;
     time += dt;
     updatePlayer(dt);
+    updateCompanions(dt);
     updateEnemies(dt);
     updateSpawner(dt);
     updateBullets(dt);
@@ -3941,6 +4607,138 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     }
   }
 
+  function drawShop() {
+    if (!inView(SHOP.x, SHOP.y, 300)) return;
+    const x = SHOP.x, y = SHOP.y;
+    const near = playerAlive() && dist(player.x, player.y, x, y) < SHOP.r;
+    ctx.save();
+
+    // 地垫
+    ctx.fillStyle = 'rgba(6,9,4,.32)';
+    ctx.beginPath(); ctx.ellipse(x, y + 30, 114, 30, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(112,90,54,.22)';
+    ctx.beginPath(); ctx.ellipse(x, y + 30, 98, 24, 0, 0, TAU); ctx.fill();
+
+    // 后墙布幔
+    ctx.fillStyle = 'rgba(48,40,26,.85)';
+    ctx.fillRect(x - 86, y - 92, 172, 74);
+    ctx.strokeStyle = 'rgba(20,16,10,.55)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - 86, y - 92, 172, 74);
+
+    // 台板与货
+    ctx.fillStyle = '#6b5a3a';
+    ctx.fillRect(x - 80, y - 40, 160, 6);
+    ctx.fillStyle = '#5a462c';
+    ctx.fillRect(x - 70, y - 62, 26, 22);
+    ctx.fillStyle = 'rgba(220,190,130,.25)';
+    ctx.fillRect(x - 70, y - 62, 26, 3);
+    ctx.fillStyle = '#7fc27a';
+    ctx.fillRect(x - 26, y - 56, 10, 16);
+    ctx.fillStyle = '#3f6d3c';
+    ctx.fillRect(x - 26, y - 60, 10, 4);
+    ctx.fillStyle = '#8c8f80';
+    ctx.fillRect(x + 8, y - 54, 4, 14);
+    ctx.fillRect(x + 20, y - 58, 4, 18);
+
+    // 柜台
+    const cg = ctx.createLinearGradient(0, y - 12, 0, y + 30);
+    cg.addColorStop(0, '#5a4429');
+    cg.addColorStop(1, '#33270f');
+    ctx.fillStyle = cg;
+    rr(x - 92, y - 8, 184, 40, 5);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(18,14,8,.7)';
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(214,180,120,.13)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const px = x - 84 + i * 30;
+      ctx.beginPath(); ctx.moveTo(px, y - 4); ctx.lineTo(px, y + 28); ctx.stroke();
+    }
+    // 柜台上的钱袋
+    ctx.fillStyle = '#7d6a3f';
+    ctx.beginPath(); ctx.ellipse(x + 52, y - 12, 12, 7, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#c9a865';
+    ctx.beginPath(); ctx.arc(x + 52, y - 18, 3, 0, TAU); ctx.fill();
+
+    // 立柱
+    ctx.fillStyle = '#3a2e1b';
+    ctx.fillRect(x - 92, y - 120, 7, 118);
+    ctx.fillRect(x + 85, y - 120, 7, 118);
+
+    // 遮阳棚
+    for (let i = 0; i < 8; i++) {
+      const t0 = i / 8, t1 = (i + 1) / 8;
+      ctx.fillStyle = i % 2 ? 'rgba(118,44,34,.92)' : 'rgba(214,196,158,.88)';
+      ctx.beginPath();
+      ctx.moveTo(lerp(x - 112, x - 92, t0), lerp(y - 96, y - 124, t0));
+      ctx.lineTo(lerp(x - 112, x - 92, t1), lerp(y - 96, y - 124, t1));
+      ctx.lineTo(lerp(x + 112, x + 92, t1), lerp(y - 96, y - 124, t1));
+      ctx.lineTo(lerp(x + 112, x + 92, t0), lerp(y - 96, y - 124, t0));
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(10,10,6,.4)';
+    ctx.fillRect(x - 112, y - 98, 224, 5);
+
+    // 招牌
+    const sway = Math.sin(animT * 1.2) * 0.018;
+    ctx.save();
+    ctx.translate(x, y - 142);
+    ctx.rotate(sway);
+    ctx.strokeStyle = 'rgba(40,34,22,.9)';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(-40, 18); ctx.lineTo(-40, 34);
+    ctx.moveTo(40, 18); ctx.lineTo(40, 34);
+    ctx.stroke();
+    ctx.fillStyle = '#2b2214';
+    rr(-48, -20, 96, 40, 6);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(214,180,120,.55)';
+    ctx.lineWidth = 1.6;
+    ctx.stroke();
+    ctx.fillStyle = '#e8c98c';
+    ctx.font = '700 21px "Songti SC", "STSong", serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(tr('shop.sign'), 0, 1);
+    ctx.restore();
+
+    // 灯笼
+    const lx = x + 74, ly = y - 74;    ctx.strokeStyle = 'rgba(30,26,16,.9)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(lx, ly - 12); ctx.lineTo(lx, ly - 30); ctx.stroke();
+    const glow = 0.85 + Math.sin(animT * 7) * 0.12;
+    const lg = ctx.createRadialGradient(lx, ly, 2, lx, ly, 46 * glow);
+    lg.addColorStop(0, 'rgba(255,190,110,.30)');
+    lg.addColorStop(1, 'rgba(255,170,80,0)');
+    ctx.fillStyle = lg;
+    ctx.beginPath(); ctx.arc(lx, ly, 46 * glow, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#d9a05e';
+    ctx.beginPath(); ctx.ellipse(lx, ly, 8, 11, 0, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(120,70,30,.8)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(60,40,20,.9)';
+    ctx.fillRect(lx - 5, ly - 13, 10, 3);
+    ctx.fillRect(lx - 5, ly + 10, 10, 3);
+
+    // 靠过来的提示光圈
+    if (near) {
+      ctx.strokeStyle = 'rgba(240,201,124,.35)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 8]);
+      ctx.beginPath();
+      ctx.ellipse(x, y + 30, 112, 30, 0, 0, TAU);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.restore();
+  }
+
   function drawPickups() {
     for (const p of pickups) {
       if (!inView(p.x, p.y, 30)) continue;
@@ -4142,6 +4940,44 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       ctx.fillStyle = '#53603e';
       ctx.beginPath(); ctx.arc(18, 5, 4.2, 0, TAU); ctx.fill();
       ctx.strokeStyle = '#2c3320'; ctx.lineWidth = 1; ctx.stroke();
+    } else if (weapon === 'slime' || weapon === 'quicksand') {
+      const slime = weapon === 'slime';
+      ctx.fillStyle = '#24231f';
+      rr(5, 1.4, 24, 4.2, 1.5); ctx.fill();
+      ctx.fillStyle = '#3a3830';
+      rr(2, 0.4, 10, 6.4, 2); ctx.fill();
+      // 储液罐
+      ctx.fillStyle = slime ? 'rgba(120,200,110,.85)' : 'rgba(214,184,120,.85)';
+      rr(6, -6.2, 15, 5.6, 2.6); ctx.fill();
+      ctx.strokeStyle = 'rgba(20,24,14,.6)';
+      ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = slime ? '#7fae6a' : '#b09a6a';
+      rr(21, 1.8, 8, 3.2, 1); ctx.fill();
+      ctx.fillStyle = col.skin;
+      ctx.beginPath(); ctx.arc(12, 3.4, 3.1, 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(23, 3.4, 2.7, 0, TAU); ctx.fill();
+    } else if (weapon === 'gatling') {
+      ctx.fillStyle = '#2b2b27';
+      rr(1, 0.6, 12, 6.4, 2); ctx.fill();
+      ctx.fillStyle = '#4a4640';
+      ctx.beginPath(); ctx.arc(9, 6.4, 5.6, 0, TAU); ctx.fill();
+      ctx.strokeStyle = 'rgba(16,16,12,.7)'; ctx.stroke();
+      for (let i = -1; i <= 1; i++) {
+        ctx.fillStyle = i === 0 ? '#55534a' : '#3d3b34';
+        rr(12, 1.2 + i * 2.6, 19, 1.8, 0.9); ctx.fill();
+      }
+      ctx.fillStyle = col.skin;
+      ctx.beginPath(); ctx.arc(12, 4, 3, 0, TAU); ctx.fill();
+    } else if (weapon === 'cannon') {
+      ctx.fillStyle = '#26251f';
+      rr(0, -1.4, 14, 9, 2.4); ctx.fill();
+      ctx.fillStyle = '#3c3a31';
+      rr(11, 0.4, 20, 5.4, 2.2); ctx.fill();
+      ctx.fillStyle = '#1b1a16';
+      rr(28, -0.6, 5, 7.4, 2); ctx.fill();
+      ctx.fillStyle = col.skin;
+      ctx.beginPath(); ctx.arc(10, 4.2, 3.2, 0, TAU); ctx.fill();
+      ctx.beginPath(); ctx.arc(24, 4.2, 2.8, 0, TAU); ctx.fill();
     } else {
       // 拳头
       ctx.fillStyle = col.skin;
@@ -4277,6 +5113,110 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     ctx.restore();
   }
 
+  function drawEnemyState(u) {
+    if (u.stuckT > 0 || u.buryT > 0) {
+      ctx.save();
+      ctx.fillStyle = u.buryT > 0 ? 'rgba(198,168,110,.55)' : 'rgba(132,206,104,.5)';
+      ctx.beginPath();
+      ctx.ellipse(u.x, u.y + u.r * 0.72, u.r * 1.1, u.r * 0.44, 0, 0, TAU);
+      ctx.fill();
+      if (u.stuckT > 0 && u.buryT <= 0) {
+        ctx.fillStyle = 'rgba(158,226,124,.35)';
+        for (let i = 0; i < 3; i++) {
+          const a = u.seed + i * 2.1;
+          ctx.beginPath();
+          ctx.arc(u.x + Math.cos(a) * u.r * 0.8, u.y + 4 + Math.sin(a) * u.r * 0.5, 2.4, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+  }
+
+  function drawRobot(c) {
+    if (!inView(c.x, c.y, 90)) return;
+    const bob = Math.sin(c.bob * 2.1) * 2.6;
+    ctx.save();
+    ctx.fillStyle = 'rgba(6,9,4,.32)';
+    ctx.beginPath();
+    ctx.ellipse(c.x, c.y + 5, 13, 5.5, 0, 0, TAU);
+    ctx.fill();
+    ctx.translate(c.x, c.y - 20 + bob);
+
+    // 机身（朝 +x 方向）
+    ctx.save();
+    ctx.rotate(c.aim);
+    // 推进器尾焰
+    ctx.fillStyle = 'rgba(150,230,255,.16)';
+    ctx.beginPath();
+    ctx.ellipse(-13, 0, 7, 3.2, 0, 0, TAU);
+    ctx.fill();
+    // 枪管
+    ctx.fillStyle = '#3b3f38';
+    ctx.fillRect(6, -1.7, 15, 3.4);
+    ctx.fillStyle = c.tint;
+    ctx.fillRect(18, -1.1, 3, 2.2);
+    // 主体
+    const g = ctx.createLinearGradient(-12, -9, 12, 9);
+    g.addColorStop(0, '#5f6559');
+    g.addColorStop(0.5, '#43483f');
+    g.addColorStop(1, '#2b2f29');
+    ctx.fillStyle = g;
+    rr(-12, -9, 24, 18, 7);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(10,12,8,.72)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    // 装甲接缝
+    ctx.strokeStyle = 'rgba(200,210,190,.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-8, -3);
+    ctx.lineTo(4, -3);
+    ctx.stroke();
+    // 眼睛
+    ctx.fillStyle = c.tint;
+    ctx.shadowColor = c.tint;
+    ctx.shadowBlur = 9;
+    ctx.beginPath();
+    ctx.arc(5.5, -3.6, 2.4, 0, TAU);
+    ctx.fill();
+    // 枪口火光
+    if (c.muzzle > 0) {
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = `rgba(190,240,255,${clamp(c.muzzle / 0.07, 0, 1) * 0.85})`;
+      ctx.beginPath();
+      ctx.arc(23, 0, 5.5, 0, TAU);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    ctx.restore();
+
+    // 旋翼
+    for (const side of [-1, 1]) {
+      const rx = side * 15, ry = -11;
+      ctx.strokeStyle = 'rgba(190,205,190,.16)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(rx, ry, 6.5, 0, TAU);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(232,242,236,.5)';
+      ctx.lineWidth = 1;
+      const spin = c.bob * 9 + side;
+      ctx.beginPath();
+      ctx.arc(rx, ry, 6.5, spin, spin + 2.2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(rx, ry, 6.5, spin + Math.PI, spin + Math.PI + 2.2);
+      ctx.stroke();
+      ctx.fillStyle = '#2a2e28';
+      ctx.beginPath();
+      ctx.arc(rx, ry, 1.8, 0, TAU);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
   function drawEntities() {
     const list = [];
     for (const e of enemies) if (!e.dead) list.push(e);
@@ -4289,11 +5229,26 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
         drawEnemyTelegraph(u);
         drawHuman(u, false);
         ctx.restore();
+        continue;
+      }
+      drawEnemyTelegraph(u);
+      drawEnemyState(u);
+      if (u.buryT > 0) {
+        const k = clamp(1 - u.buryT / (u.buryMax || 1), 0, 1);
+        ctx.save();
+        ctx.globalAlpha = clamp(1 - k * 0.92, 0, 1);
+        ctx.translate(u.x, u.y + k * 15);
+        const sc = 1 - k * 0.16;
+        ctx.scale(sc, sc);
+        ctx.translate(-u.x, -u.y);
+        drawHuman(u, false);
+        ctx.restore();
       } else {
-        drawEnemyTelegraph(u);
         drawHuman(u, false);
       }
     }
+    // 同伴机器人
+    for (const c of companions) drawRobot(c);
     // 玩家永远画在小人上面，免得被围住时找不到自己
     if (!player) return;
     if (player.dead) {
@@ -4320,18 +5275,23 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     ctx.globalCompositeOperation = 'lighter';
     for (const b of bullets) {
       if (!inView(b.x, b.y, 40)) continue;
-      ctx.strokeStyle = 'rgba(255,214,140,.18)';
-      ctx.lineWidth = 6;
+      const col = b.color || '255,214,140';
+      ctx.strokeStyle = `rgba(${col},.18)`;
+      ctx.lineWidth = b.kind === 'shell' ? 11 : b.kind === 'drone' ? 5 : 6;
       ctx.beginPath();
       ctx.moveTo(b.px, b.py);
       ctx.lineTo(b.x, b.y);
       ctx.stroke();
-      ctx.strokeStyle = 'rgba(255,238,196,.95)';
-      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = `rgba(${col},.95)`;
+      ctx.lineWidth = b.kind === 'shell' ? 2.6 : 1.6;
       ctx.beginPath();
       ctx.moveTo(b.px, b.py);
       ctx.lineTo(b.x, b.y);
       ctx.stroke();
+      if (b.kind === 'shell') {
+        ctx.fillStyle = 'rgba(255,210,150,.9)';
+        ctx.beginPath(); ctx.arc(b.x, b.y, 4.2, 0, TAU); ctx.fill();
+      }
     }
     ctx.restore();
   }
@@ -4555,6 +5515,15 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     ctx.fillStyle = dl;
     ctx.beginPath(); ctx.arc(1750, 1968, 110, 0, TAU); ctx.fill();
 
+    // 货摊灯笼
+    const sl = 0.9 + Math.sin(animT * 6.3) * 0.1;
+    const sx2 = SHOP.x + 74, sy2 = SHOP.y - 74;
+    const sg = ctx.createRadialGradient(sx2, sy2, 3, sx2, sy2, 120 * sl);
+    sg.addColorStop(0, 'rgba(255,196,120,.2)');
+    sg.addColorStop(1, 'rgba(255,170,80,0)');
+    ctx.fillStyle = sg;
+    ctx.beginPath(); ctx.arc(sx2, sy2, 120 * sl, 0, TAU); ctx.fill();
+
     // 枪口
     if (playerAlive() && muzzleLight > 0 && !player.hidden) {
       const mx2 = player.x + Math.cos(player.aim) * 30;
@@ -4654,7 +5623,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       ctx.stroke();
       ctx.setLineDash([]);
     }
-    if (player.weapon === 'gun' && player.reload > 0) {
+    if (player.reload > 0 && WEAPONS[player.weapon] && WEAPONS[player.weapon].mag !== undefined) {
       ctx.globalAlpha = 0.8;
       ctx.strokeStyle = '#e7c27d';
       ctx.lineWidth = 2;
@@ -4780,6 +5749,22 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       mctx.fillRect(b.x * k - 1.6, b.y * k - 1.6, 3.2, 3.2);
     }
 
+    // 货摊
+    mctx.save();
+    mctx.translate(SHOP.x * k, SHOP.y * k);
+    mctx.rotate(Math.PI / 4);
+    mctx.fillStyle = '#f0c97c';
+    mctx.fillRect(-3.6, -3.6, 7.2, 7.2);
+    mctx.restore();
+
+    // 同伴机器人
+    mctx.fillStyle = 'rgba(150,225,235,.9)';
+    for (const c of companions) {
+      mctx.beginPath();
+      mctx.arc(c.x * k, c.y * k, 2, 0, TAU);
+      mctx.fill();
+    }
+
     // 小人
     for (const e of enemies) {
       if (e.dead) continue;
@@ -4852,6 +5837,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     drawRocks();
     drawTreesTrunks();
     drawBarrels();
+    drawShop();
     drawPickups();
     drawEntities();
     drawShelterWalls();
@@ -4888,25 +5874,50 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     HUD.score.textContent = String(score);
     HUD.clock.textContent = fmtTime(time);
     HUD.best.textContent = String(Math.max(best, score));
+    if (HUD.gold) HUD.gold.textContent = String(gold);
 
-    // 武器
-    HUD.ammoGun.innerHTML = player.reload > 0 ? '<b>' + tr('hud.reloading') + '</b>' : `<b>${player.mag}</b>/∞`;
-    HUD.ammoNade.textContent = '×' + player.grenades;
-    HUD.ammoFist.textContent = '—';
-    HUD.ammoKnife.textContent = tr('hud.bleed');
-    HUD.cards.gun.classList.toggle('empty', player.mag <= 0 && player.reload <= 0);
-    HUD.cards.nade.classList.toggle('empty', player.grenades <= 0);
-    if (player.reload > 0) {
-      HUD.reloadLine.style.width = ((1 - player.reload / player.reloadTotal) * 100).toFixed(1) + '%';
-    } else {
-      HUD.reloadLine.style.width = '0%';
+    // 武器弹药
+    for (const w of WORDER) {
+      const cfg = WEAPONS[w];
+      const el = HUD.ammo[w];
+      if (!el || !cfg) continue;
+      if (cfg.mag === undefined) {
+        el.textContent = w === 'fist' ? '—' : (w === 'knife' ? tr('hud.bleed') : '×' + player.grenades);
+        continue;
+      }
+      if (player.weapon === w) {
+        el.innerHTML = player.reload > 0
+          ? '<b>' + tr('hud.reloading') + '</b>'
+          : `<b>${player.mag}</b>` + (w === 'gun' ? '/∞' : '');
+      } else {
+        const m = player.mags[w] === undefined ? cfg.mag : player.mags[w];
+        el.textContent = String(m);
+      }
+    }
+    for (const w of WORDER) {
+      const rl = HUD.reloadLines[w];
+      if (!rl) continue;
+      if (w === player.weapon && player.reload > 0) {
+        rl.style.width = ((1 - player.reload / player.reloadTotal) * 100).toFixed(1) + '%';
+      } else if (rl.style.width !== '0%') {
+        rl.style.width = '0%';
+      }
     }
 
-    // 地洞提示
+    // 地洞 / 货摊提示
     const holeD = dist(player.x, player.y, SHELTER.holeX, SHELTER.holeY);
     const nearHole = holeD < 92 && !player.hidden && !player.dead;
-    HUD.hint.classList.toggle('hidden', !(nearHole && state === 'playing'));
+    const nearShopNow = nearShop();
+    HUD.hint.classList.toggle('hidden', !((nearHole || nearShopNow) && state === 'playing'));
+    if (nearHole || nearShopNow) {
+      const hintKey = nearShopNow ? 'shop.hint' : 'hud.hint';
+      if (HUD.hintText.getAttribute('data-i18n') !== hintKey) {
+        HUD.hintText.setAttribute('data-i18n', hintKey);
+        HUD.hintText.innerHTML = tr(hintKey);
+      }
+    }
     HUD.tbHole.classList.toggle('hidden', !(nearHole || player.hidden));
+    if (HUD.tbShop) HUD.tbShop.classList.toggle('hidden', !(nearShopNow && !player.hidden));
     HUD.hiddenNote.classList.toggle('hidden', !player.hidden);
 
     // 罗盘
@@ -4969,6 +5980,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     saveBest();
     state = 'menu';
     player = makePlayer();
+    companions = [];
     enemies = []; bullets = []; grenades = []; particles = []; texts = [];
     pickups = []; decals = []; slashes = []; shocks = [];
     shake = 0; hurtFlash = 0; blastFlash = 0;
@@ -4978,6 +5990,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     $('#screen-start').classList.remove('hidden');
     $('#screen-pause').classList.add('hidden');
     $('#screen-dead').classList.add('hidden');
+    $('#screen-shop').classList.add('hidden');
     $('#hud').classList.add('hidden');
     $('#best-menu').textContent = String(best);
     HUD.hiddenNote.classList.add('hidden');
@@ -5079,14 +6092,28 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       if (code === 'Escape' || code === 'KeyP') resumeGame();
       return;
     }
+    if (state === 'shop') {
+      if (code === 'Escape' || code === 'KeyE' || code === 'KeyB') closeShop();
+      else if (code === 'Digit1' || code === 'Numpad1') buyWeapon('slime');
+      else if (code === 'Digit2' || code === 'Numpad2') buyWeapon('quicksand');
+      else if (code === 'Digit3' || code === 'Numpad3') buyWeapon('gatling');
+      else if (code === 'Digit4' || code === 'Numpad4') buyWeapon('cannon');
+      return;
+    }
     if (state !== 'playing') return;
 
     if (code === 'Digit1' || code === 'Numpad1') selectWeapon('fist');
     else if (code === 'Digit2' || code === 'Numpad2') selectWeapon('knife');
     else if (code === 'Digit3' || code === 'Numpad3') selectWeapon('gun');
     else if (code === 'Digit4' || code === 'Numpad4') selectWeapon('nade');
+    else if (code === 'Digit5' || code === 'Numpad5') selectWeapon('slime');
+    else if (code === 'Digit6' || code === 'Numpad6') selectWeapon('quicksand');
+    else if (code === 'Digit7' || code === 'Numpad7') selectWeapon('gatling');
+    else if (code === 'Digit8' || code === 'Numpad8') selectWeapon('cannon');
     else if (code === 'KeyR') startReload();
-    else if (code === 'KeyE') toggleHole();
+    else if (code === 'KeyE' || code === 'KeyB') {
+      if (nearShop()) openShop(); else toggleHole();
+    }
     else if (code === 'Space') doDodge();
     else if (code === 'Escape' || code === 'KeyP') pauseGame();
     else if (code === 'KeyQ') cycleWeapon(-1);
@@ -5203,7 +6230,19 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
   });
   bindBtn('tb-reload', () => startReload());
   bindBtn('tb-hole', () => toggleHole());
+  bindBtn('tb-shop', () => openShop());
   bindBtn('tb-pause', () => pauseGame());
+
+  // 商店按钮
+  document.querySelectorAll('.shop-item').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      buyWeapon(el.getAttribute('data-buy'));
+    });
+  });
+  const shopCloseBtn = $('#btn-shop-close');
+  if (shopCloseBtn) shopCloseBtn.addEventListener('click', closeShop);
 
   // 首屏按钮
   document.querySelectorAll('[data-lang-toggle]').forEach(btn => {
@@ -5244,6 +6283,7 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     resetGame();
     enemies = []; bullets = []; grenades = []; particles = []; texts = [];
     pickups = []; decals = []; slashes = []; shocks = [];
+    companions = [];
     state = 'menu';
     $('#best-menu').textContent = String(best);
     $('#best').textContent = String(best);
@@ -5264,6 +6304,15 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
     get state() { return state; },
     get player() { return player; },
     get enemies() { return enemies; },
+    get companions() { return companions; },
+    get bullets() { return bullets; },
+    get gold() { return gold; },
+    get owned() { return player ? player.owned : {}; },
+    addGold(n) { gold += n; refreshShopUI(); },
+    buy(id) { buyWeapon(id); },
+    openShop() { openShop(); },
+    closeShop() { closeShop(); },
+    shop: SHOP,
     get stats() { return { kills, score, time, infightKills, alive: enemies.length, combo }; },
     teleport(x, y) {
       if (!player) return;
@@ -5294,7 +6343,21 @@ body.lang-en .keys { max-width: 1000px; gap: 8px 15px; }
       if (!player) return;
       this.teleport(SHELTER.holeX, SHELTER.holeY + 30);
     },
-    setWeapon(w) { if (player) { player.weapon = w; syncWeaponUI(); } },
+    setWeapon(w) {
+      if (!player || !WEAPONS[w] || !weaponUnlocked(w)) return;
+      const old = WEAPONS[player.weapon];
+      if (old && old.mag !== undefined) player.mags[player.weapon] = player.mag;
+      player.weapon = w;
+      const cfg = WEAPONS[w];
+      if (cfg.mag !== undefined) {
+        if (player.mags[w] === undefined) player.mags[w] = cfg.mag;
+        player.mag = player.mags[w];
+        player.magSize = cfg.mag;
+      }
+      player.reload = 0;
+      player.spin = 0;
+      syncWeaponUI();
+    },
     setSpawner(on) { spawnEnabled = !!on; },
     viewInfo() { return { cam: { x: cam.x, y: cam.y }, zoom, w: W, h: H }; },
     screenOf(t) { return { x: (t.x - cam.x) * zoom + W / 2, y: (t.y - cam.y) * zoom + H / 2 }; },

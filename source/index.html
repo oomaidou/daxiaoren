@@ -32,6 +32,7 @@
       <div class="stat"><span data-i18n="hud.score">得分</span><b id="score">0</b></div>
       <div class="stat"><span data-i18n="hud.time">存活</span><b id="clock">00:00</b></div>
       <div class="stat best"><span data-i18n="hud.best">最佳</span><b id="best">0</b></div>
+      <div class="stat gold"><span data-i18n="hud.gold">金币</span><b id="gold">0</b></div>
     </div>
 
     <div id="compass" class="fade">
@@ -68,6 +69,34 @@
         <span class="wname" data-i18n="hud.weapon.nade">手榴弹</span>
         <span class="wammo" id="ammo-nade">×3</span>
       </div>
+      <div class="wcard locked" data-w="slime">
+        <span class="wkey">5</span>
+        <span class="wicon" data-i18n="hud.icon.slime">粘</span>
+        <span class="wname" data-i18n="hud.short.slime">粘液枪</span>
+        <span class="wammo" id="ammo-slime">24</span>
+        <span class="reload-line" id="reload-line-slime"></span>
+      </div>
+      <div class="wcard locked" data-w="quicksand">
+        <span class="wkey">6</span>
+        <span class="wicon" data-i18n="hud.icon.quicksand">沙</span>
+        <span class="wname" data-i18n="hud.short.quicksand">流沙枪</span>
+        <span class="wammo" id="ammo-quicksand">12</span>
+        <span class="reload-line" id="reload-line-quicksand"></span>
+      </div>
+      <div class="wcard locked" data-w="gatling">
+        <span class="wkey">7</span>
+        <span class="wicon" data-i18n="hud.icon.gatling">加</span>
+        <span class="wname" data-i18n="hud.short.gatling">加特林</span>
+        <span class="wammo" id="ammo-gatling">220</span>
+        <span class="reload-line" id="reload-line-gatling"></span>
+      </div>
+      <div class="wcard locked" data-w="cannon">
+        <span class="wkey">8</span>
+        <span class="wicon" data-i18n="hud.icon.cannon">炮</span>
+        <span class="wname" data-i18n="hud.short.cannon">大炮</span>
+        <span class="wammo" id="ammo-cannon">6</span>
+        <span class="reload-line" id="reload-line-cannon"></span>
+      </div>
     </div>
 
     <div id="map-box">
@@ -93,6 +122,7 @@
       <button id="tb-nade" class="tbtn" data-i18n="hud.touch.nade">雷</button>
       <button id="tb-reload" class="tbtn" data-i18n="hud.touch.reload">弹</button>
       <button id="tb-hole" class="tbtn hidden" data-i18n="hud.touch.hole">洞</button>
+      <button id="tb-shop" class="tbtn hidden" data-i18n="hud.touch.shop">店</button>
     </div>
   </div>
 
@@ -131,6 +161,7 @@
         <span data-i18n="key.sprint"><kbd>Shift</kbd> 冲刺</span>
         <span data-i18n="key.dodge"><kbd>空格</kbd> 翻滚</span>
         <span data-i18n="key.hole"><kbd>E</kbd> 地洞</span>
+        <span data-i18n="key.shop"><kbd>E</kbd> 货摊</span>
         <span data-i18n="key.pause"><kbd>Esc</kbd> 暂停</span>
       </div>
       <div class="keys touch-only">
@@ -196,6 +227,75 @@
       <div class="btn-row">
         <button id="btn-retry" class="big-btn" data-i18n="death.again">再来一局<span class="arrow">→</span></button>
         <button id="btn-menu" class="ghost-btn" data-i18n="death.menu">回到山顶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 商店 ================= -->
+  <div id="screen-shop" class="screen hidden">
+    <div class="screen-inner shop-inner">
+      <div class="lang-row"><button class="lang-btn" type="button" data-lang-toggle>EN</button></div>
+      <div class="eyebrow"><span></span><b data-i18n="shop.eyebrow">山货铺</b><span></span></div>
+      <h2 class="sub-title" data-i18n="shop.title">老猎人的摊子</h2>
+      <p class="tagline" data-i18n="shop.tagline">小人身上的金币，在这里换成真家伙。</p>
+      <div class="shop-wallet">
+        <span data-i18n="shop.wallet">你身上的金币</span>
+        <b id="shop-gold">0</b>
+      </div>
+      <div id="shop-msg" class="shop-msg"></div>
+      <div class="shop-grid">
+        <button class="shop-item" type="button" data-buy="slime">
+          <span class="si-icon slime" data-i18n="hud.icon.slime">粘</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.slime">粘液枪</b>
+            <em class="si-desc" data-i18n="shop.slime.desc">打中就把小人粘在原地，动不了也打不着你。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">90</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="quicksand">
+          <span class="si-icon quicksand" data-i18n="hud.icon.quicksand">沙</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.quicksand">流沙枪</b>
+            <em class="si-desc" data-i18n="shop.quicksand.desc">沙子陷进去就往下沉，整个人被埋掉。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">170</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="gatling">
+          <span class="si-icon gatling" data-i18n="hud.icon.gatling">加</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.gatling">加特林</b>
+            <em class="si-desc" data-i18n="shop.gatling.desc">摇起来越打越快，一梭子 220 发，弹幕压过去。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">320</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+        <button class="shop-item" type="button" data-buy="cannon">
+          <span class="si-icon cannon" data-i18n="hud.icon.cannon">炮</span>
+          <span class="si-body">
+            <b class="si-name" data-i18n="hud.weapon.cannon">大炮</b>
+            <em class="si-desc" data-i18n="shop.cannon.desc">一发炸开一片，范围 150。自己别站太近。</em>
+          </span>
+          <span class="si-side">
+            <b class="si-price">460</b>
+            <i class="si-unit" data-i18n="shop.unit">金币</i>
+            <span class="si-tag" data-i18n="shop.owned">已拥有</span>
+          </span>
+        </button>
+      </div>
+      <div class="shop-note" data-i18n="shop.note">买下会直接装备在身上，按 5 – 8 或滚轮切换。金币来自打死的小人。</div>
+      <div class="btn-row">
+        <button id="btn-shop-close" class="big-btn" data-i18n="shop.close">离开摊子<span class="arrow">→</span></button>
       </div>
     </div>
   </div>

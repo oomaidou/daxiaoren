@@ -4,6 +4,8 @@
 
 A top-down endless survival shooter that runs in the browser. Little men keep pouring out of the dusk forest with fists and knives. Fight them with your fists, a hunting knife, a rifle and grenades — or climb into the hole in the shelter floor and let them tear each other apart.
 
+Killing them drops **gold**. The stall outside the south door trades gold for a slime gun, a quicksand gun, a gatling and a cannon — and **five hound robots** follow you and open fire on their own.
+
 **Single-file HTML · no dependencies · keyboard, mouse and touch · open and play.**
 
 **Play online:** https://oomaidou.github.io/daxiaoren/
@@ -19,6 +21,8 @@ A top-down endless survival shooter that runs in the browser. Little men keep po
 - The shelter walls block bullets and there is only one south door. The **hole in the floor** (`E`) makes you untouchable while they fight above you.
 - Red barrels explode and chain-react. Don't stand too close.
 - Kills build a combo multiplier; your best score is stored in the browser.
+- Kills drop **gold** (more with a higher combo). Walk up to the stall outside the south door and press `E` to spend it.
+- **Five hound robots** fly with you from the start and shoot anything within 620 units. No input needed.
 
 ## Controls
 
@@ -27,11 +31,12 @@ A top-down endless survival shooter that runs in the browser. Little men keep po
 | Move | `WASD` / arrow keys | Drag on the left half |
 | Aim | Mouse | Drag on the right half |
 | Attack | Left mouse button (hold to keep firing) | Hold on the right half |
-| Switch weapon | `1` `2` `3` `4` / mouse wheel / `Q` | **Swap** button |
+| Switch weapon | `1` – `8` / mouse wheel / `Q` | **Swap** button |
 | Reload | `R` | **Reload** button |
 | Sprint | `Shift` | Push the joystick all the way |
 | Dodge | `Space` | — |
-| Enter / leave the hole | `E` | **Hole** button |
+| Enter / leave the hole | `E` (near the hole) | **Hole** button |
+| The stall | `E` / `B` (near the stall) | **Shop** button |
 | Pause | `Esc` / `P` | Pause button (top left) |
 | Mute | `M` | — |
 | Language | `L` | `EN` / `中文` button |
@@ -44,10 +49,28 @@ A top-down endless survival shooter that runs in the browser. Little men keep po
 | Hunting knife | 48 + 8 bleed per second | Short melee arc, good up close |
 | Rifle | 26 per shot, 30-round magazine | Infinite reserve, press `R` to reload |
 | Grenade | 260 (falls off with distance) | Carry up to 5, can hurt you |
+| Slime Gun | 13 per shot, 24-round mag | 90 gold. Glues little men in place for 2.4 s; splash slows the rest |
+| Quicksand Gun | 16 per shot, 12-round mag | 170 gold. They sink and are buried whole after 0.85 s |
+| Gatling | 17 per shot, 220-round mag | 320 gold. Spins up while held — a wall of lead |
+| Cannon | 205 in a 150 radius | 460 gold. Six shells, big blast; it can hurt you too |
+
+## Shop & gold
+
+- Each little man drops **2 – 5 gold**; the combo multiplier raises the drop too. Gold resets every run.
+- The stall sits east of the south door. Walk close and press `E` (or `B`). Bought weapons are equipped instantly; switch with `5` – `8` or the wheel.
+- Inside the shop, `1` – `4` buys the four weapons directly; `Esc` / `E` leaves.
+- Gold is shown in the top-right HUD. If the shop won't open, check that you are actually standing by the stall.
+
+## Hound robots
+
+- Five of them from the start. They orbit you, pick their own targets and fire 15-damage rounds every 0.5 – 0.85 s.
+- They never block you and never hurt you; kills they make still count for you and still drop gold.
+- They keep working while you run, get swarmed, or hide in the hole.
 
 ## The map
 
 - **Shelter:** a log cabin with a campfire, bed, crates and a table. The south door is the only entrance.
+- **The stall:** east of the south door — red and white awning, a lantern and a "GOODS" sign. A ring appears when you are close enough.
 - **The hole:** climb in and the little men lose track of you and start fighting each other. Press `E` again to climb out.
 - **Barrels:** shoot them for an area explosion that can chain to nearby barrels.
 - **Infighting:** little men attack each other when blocked, when they can't find you, or when they are the aggressive type. Knives and explosions can hit everyone.
@@ -83,6 +106,8 @@ Then open <http://localhost:8000>.
 - All gunshots, knife swings, explosions, footsteps and wind are synthesized with WebAudio
 - Camera shake, particles, blood decals, floating damage numbers, adaptive camera
 - Separate keyboard/mouse and touch controls
+- Five AI companions: formation keeping, obstacle avoidance, target picking, auto-fire
+- In-run economy: kills drop gold → the map stall sells weapons
 - Single file — the HTML is the whole game, easy to share or modify
 
 ## License
